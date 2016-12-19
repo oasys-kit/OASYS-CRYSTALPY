@@ -1,0 +1,21 @@
+Metadata-Version: 1.1
+Name: oasyscrystalpy
+Version: 1.0
+Summary: oasyscrystalpy:  Oasys interface for crystalpy
+Home-page: http://orange.biolab.si/
+Author: Edoardo Cappelli
+Author-email: cappelli@esrf.fr
+License: MIT
+Download-URL: http://github.com/edocappelli/oasys-crystalpy
+Description: oasys-crystalpy
+        
+Keywords: xray,dynamic diffraction,polarization,Oasys,Orange
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: X11 Applications :: Qt
+Classifier: Environment :: Console
+Classifier: Environment :: Plugins
+Classifier: Programming Language :: Cython
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Intended Audience :: Science/Research
