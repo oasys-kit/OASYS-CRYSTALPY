@@ -53,7 +53,7 @@ class OWPhotonSource(widget.OWWidget):
     STOKES_S1 = Setting(1.0)
     STOKES_S2 = Setting(0.0)
     STOKES_S3 = Setting(0.0)
-    DUMP_TO_FILE = Setting(0)  # Yes
+    DUMP_TO_FILE = Setting(1)  # No
     FILE_NAME = Setting("photon_source.dat")
 
     def __init__(self):

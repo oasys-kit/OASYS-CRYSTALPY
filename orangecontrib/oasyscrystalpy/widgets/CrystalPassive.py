@@ -53,7 +53,7 @@ class OWCrystalPassive(widget.OWWidget):
     ASYMMETRY_ANGLE = Setting(0.0)  # degrees
     AZIMUTHAL_ANGLE = Setting(90.0)  # degrees
     INCLINATION_ANGLE = Setting(45.0)  # degrees
-    DUMP_TO_FILE = Setting(0)  # Yes
+    DUMP_TO_FILE = Setting(1)  # No
     FILE_NAME = Setting("crystal_passive.dat")
 
     def __init__(self):

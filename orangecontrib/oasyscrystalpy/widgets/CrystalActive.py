@@ -63,7 +63,7 @@ class OWCrystalActive(widget.OWWidget):
     STOKES_S2 = Setting(0.0)
     STOKES_S3 = Setting(0.0)
     INCLINATION_ANGLE = Setting(45.0)  # degrees
-    DUMP_TO_FILE = Setting(0)  # Yes
+    DUMP_TO_FILE = Setting(1)  # No
     FILE_NAME = Setting("tmp.dat")
 
     def __init__(self):
