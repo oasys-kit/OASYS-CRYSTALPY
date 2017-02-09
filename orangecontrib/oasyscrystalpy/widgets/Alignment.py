@@ -48,7 +48,7 @@ class OWAlignmentTool(widget.OWWidget):
     ALPHA_X = Setting(0)  # degrees
     MOA = Setting(0)  # 180 - > (+) position
     MODE = Setting(0)  # lab-to-crystal
-    DUMP_TO_FILE = Setting(1)  # No
+    DUMP_TO_FILE = Setting(1)  # Yes
     FILE_NAME = Setting("alignment_tool.dat")
 
     def __init__(self):
@@ -144,7 +144,7 @@ class OWAlignmentTool(widget.OWWidget):
         box1 = gui.widgetBox(box)
         gui.comboBox(box1, self, "DUMP_TO_FILE",
                      label=self.unitLabels()[idx], addSpace=True,
-                     items=['Yes', 'No'],
+                     items=['No', 'Yes'],
                      orientation="horizontal")
         self.show_at(self.unitFlags()[idx], box1)
 
@@ -175,7 +175,7 @@ class OWAlignmentTool(widget.OWWidget):
     def unitFlags(self):
         return ["True",             "True",         "True",     "True",     "True",
                 "True",            "True",                     "True",
-                "True",         "self.DUMP_TO_FILE == 0"]
+                "True",         "self.DUMP_TO_FILE == 1"]
 
     def apply(self):
 
@@ -196,6 +196,7 @@ class OWAlignmentTool(widget.OWWidget):
                                           self.MILLER_K,
                                           self.MILLER_L)
 
+        # TODO: change rotation using the crystalpy tool to get full alignment.
         for polarized_photon in self.incoming_bunch:
 
             if self.MODE == 0:  # ray-to-crystal
@@ -213,16 +214,18 @@ class OWAlignmentTool(widget.OWWidget):
             outgoing_bunch.add(polarized_photon)
 
             # Dump data to file if requested.
-            if self.DUMP_TO_FILE == 0:
+            if self.DUMP_TO_FILE:
 
                 print("AlignmentTool: Writing data in {file}...\n".format(file=self.FILE_NAME))
 
                 with open(self.FILE_NAME, "w") as file:
                     try:
                         file.write("#S 1 photon bunch\n"
-                                   "#N 8\n"
-                                   "#L  Energy [eV]  Vx  Vy  Vz  S0  S1  S2  S3\n")
+                                   "#N 9\n"
+                                   "#L  Energy [eV]  Vx  Vy  Vz  S0  S1  S2  S3  CircularPolarizationDegree\n")
                         file.write(outgoing_bunch.to_string())
+                        file.close()
+                        print("File written to disk: %s \n"%self.FILE_NAME)
 
                     except:
                         raise Exception("AlignmentTool: The data could not be dumped onto the specified file!\n")

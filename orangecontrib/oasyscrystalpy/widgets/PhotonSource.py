@@ -53,7 +53,7 @@ class OWPhotonSource(widget.OWWidget):
     STOKES_S1 = Setting(1.0)
     STOKES_S2 = Setting(0.0)
     STOKES_S3 = Setting(0.0)
-    DUMP_TO_FILE = Setting(1)  # No
+    DUMP_TO_FILE = Setting(1)  # Yes
     FILE_NAME = Setting("photon_source.dat")
 
     def __init__(self):
@@ -170,7 +170,7 @@ class OWPhotonSource(widget.OWWidget):
         box1 = gui.widgetBox(box)
         gui.comboBox(box1, self, "DUMP_TO_FILE",
                      label=self.unitLabels()[idx], addSpace=True,
-                     items=["Yes", "No"],
+                     items=["No", "Yes"],
                      orientation="horizontal")
         self.show_at(self.unitFlags()[idx], box1)
 
@@ -197,7 +197,7 @@ class OWPhotonSource(widget.OWWidget):
         return ["True",          "self.ENERGY_POINTS != 1", "self.ENERGY_POINTS != 1", "self.ENERGY_POINTS == 1",
                 "True",                     "self.ANGLE_DEVIATION_POINTS != 1", "self.ANGLE_DEVIATION_POINTS != 1", "self.ANGLE_DEVIATION_POINTS == 1",
                 "True",                "True",                "True",                "True",
-                "True",         "self.DUMP_TO_FILE == 0"]
+                "True",         "self.DUMP_TO_FILE == 1"]
 
     def generate(self):
 
@@ -228,6 +228,10 @@ class OWPhotonSource(widget.OWWidget):
 
         # Following XOP conventions, the photon bunch travels along the y axis in the lab frame of reference.
         base_direction = Vector(0, 1, 0)
+        # TODO: check this sign and possibly change it.
+        # Setting (-1,0,0) means that negative deviation correspond to positive vz and after rotation
+        # to match the crystal correspond to theta_bragg -  delta, so deviation has the same sign of delta
+
         rotation_axis = Vector(-1, 0, 0)
 
         # To match the deviation sign conventions with those adopted in the crystal diffraction part,
@@ -244,17 +248,18 @@ class OWPhotonSource(widget.OWWidget):
         photon_bunch = PhotonBunch(polarized_photons)
 
         # Dump data to file if requested.
-        if self.DUMP_TO_FILE == 0:
+        if self.DUMP_TO_FILE:
 
             print("PhotonSource: Writing data in {file}...\n".format(file=self.FILE_NAME))
 
             with open(self.FILE_NAME, "w") as file:
                 try:
                     file.write("#S 1 photon bunch\n"
-                               "#N 8\n"
-                               "#L  Energy [eV]  Vx  Vy  Vz  S0  S1  S2  S3\n")
+                               "#N 9\n"
+                               "#L  Energy [eV]  Vx  Vy  Vz  S0  S1  S2  S3  CircularPolarizationDregree\n")
                     file.write(photon_bunch.to_string())
-
+                    file.close()
+                    print("File written to disk: %s \n"%self.FILE_NAME)
                 except:
                     raise Exception("PhotonSource: The data could not be dumped onto the specified file!\n")
 

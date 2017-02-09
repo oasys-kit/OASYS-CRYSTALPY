@@ -8,7 +8,7 @@ from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 import orangecanvas.resources as resources
 import os
 import sys
-from crystalpy.PlotData1D import PlotData1D
+from crystalpy.examples.PlotData1D import PlotData1D
 from orangecontrib.oasyscrystalpy.util.MailingBox import MailingBox
 
 

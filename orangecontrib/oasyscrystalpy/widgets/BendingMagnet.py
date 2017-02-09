@@ -287,11 +287,11 @@ class OWBendingMagnet(widget.OWWidget):
     ANGLE_DEVIATION_MIN = Setting(-100)  # microradians
     ANGLE_DEVIATION_MAX = Setting(100)  # microradians
     ANGLE_DEVIATION = Setting(0)  # microradians
-    DUMP_TO_FILE = Setting(1)  # No
-    FILE_NAME = Setting("bending_magnet.dat")
+    DUMP_TO_FILE = Setting(1)  # Yes.dat")
+    FILE_NAME = Setting("bending_magnet_source.dat")
 
     # Setting as default ESRF parameters.
-    ELECTRON_ENERGY = Setting(6.04)  # the electron energy [in GeV]
+    ELECTRON_ENERGY = Setting(6.0)  # the electron energy [in GeV]
     ELECTRON_CURRENT = Setting(0.2)  # the electron beam intensity [in A]
     HORIZONTAL_DIVERGENCE = Setting(1.0)  # the horizontal divergence [in mrad]
     MAGNETIC_RADIUS = Setting(25.0)  # the magnetic radius [in m]
@@ -418,7 +418,7 @@ class OWBendingMagnet(widget.OWWidget):
         box1 = gui.widgetBox(box)
         gui.comboBox(box1, self, "DUMP_TO_FILE",
                      label=self.unitLabels()[idx], addSpace=True,
-                     items=["Yes", "No"],
+                     items=["No", "Yes"],
                      orientation="horizontal")
         self.show_at(self.unitFlags()[idx], box1)
 
@@ -454,7 +454,7 @@ class OWBendingMagnet(widget.OWWidget):
         return ["True",          "self.ENERGY_POINTS != 1", "self.ENERGY_POINTS != 1", "self.ENERGY_POINTS == 1",
                 "True",                     "self.ANGLE_DEVIATION_POINTS != 1", "self.ANGLE_DEVIATION_POINTS != 1", "self.ANGLE_DEVIATION_POINTS == 1",
                 "True",                  "True",                 "True",                         "True",
-                "True",         "self.DUMP_TO_FILE == 0",  "True"]
+                "True",         "self.DUMP_TO_FILE == 1",  "True"]
 
     def generate(self):
 
@@ -507,14 +507,14 @@ class OWBendingMagnet(widget.OWWidget):
         #
         # Dump data to file if requested.
         #
-        if self.DUMP_TO_FILE == 0:
+        if self.DUMP_TO_FILE:
 
             print("BendingMagnet: Writing data in {file}...\n".format(file=self.FILE_NAME))
 
             with open(self.FILE_NAME, "w") as file:
                 try:
                     file.write("#S 1 photon bunch\n"
-                               "#N 8\n"
+                               "#N 9\n"
                                "#L  Energy [eV]  Vx  Vy  Vz  S0  S1  S2  S3\n")
                     file.write(photon_bunch.to_string())
 
