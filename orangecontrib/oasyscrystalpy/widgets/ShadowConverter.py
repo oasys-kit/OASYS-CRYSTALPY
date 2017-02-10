@@ -20,7 +20,7 @@ class ShadowConverter(widget.OWWidget):
     description = "Converts PhotonBunch to Shadow Beam and back"
     icon = "icons/converter.png"
     maintainer = "Manuel Sanchez del Rio"
-    maintainer_email = "srio(@at@)srio.eu"
+    maintainer_email = "srio(@at@)esrf.eu"
     priority = 10
     category = "crystalpy"
     keywords = ["PhotonViewer", "crystalpy", "viewer", "oasyscrystalpy", "shadowOui"]
