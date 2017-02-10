@@ -12,9 +12,11 @@ from orangewidget import gui, widget
 
 class PlotType:
     """Contains the different plot types that can be plotted by the viewer."""
-    STOKES_DEVIATION = {'subplots': (2, 2), 'x values': "deviations", 'y values': "stokes",              'style': "grid"}
+    # STOKES_DEVIATION = {'subplots': (2, 2), 'x values': "deviations", 'y values': "stokes",              'style': "grid"}
+    STOKES_DEVIATION = {'subplots': (2, 2), 'x values': "deviations", 'y values': "stokes",              'style': "scatter"}
     STOKES_ENERGY = {   'subplots': (2, 2), 'x values': "energies",   'y values': "stokes",              'style': "scatter"}
-    POLAR_DEVIATION = { 'subplots': (1, 1), 'x values': "deviations", 'y values': "polarization degrees", 'style': "grid"}
+    # POLAR_DEVIATION = { 'subplots': (1, 1), 'x values': "deviations", 'y values': "polarization degrees", 'style': "grid"}
+    POLAR_DEVIATION = { 'subplots': (1, 1), 'x values': "deviations", 'y values': "polarization degrees", 'style': "scatter"}
     POLAR_ENERGY = {    'subplots': (1, 1), 'x values': "energies",   'y values': "polarization degrees", 'style': "scatter"}
 
 
