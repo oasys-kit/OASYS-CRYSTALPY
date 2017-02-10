@@ -174,6 +174,7 @@ class OWCrystalPassive(widget.OWWidget):
         if photon_bunch is not None:
             self._input_available = True
             self.incoming_bunch = photon_bunch
+            self.compute()
 
     def unitLabels(self):
         return ["Geometry type", "Crystal name", "Thickness [cm]", "Miller H", "Miller K", "Miller L",

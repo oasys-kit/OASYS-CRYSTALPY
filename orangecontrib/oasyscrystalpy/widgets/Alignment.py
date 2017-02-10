@@ -166,6 +166,7 @@ class OWAlignmentTool(widget.OWWidget):
         if photon_bunch is not None:
             self._input_available = True
             self.incoming_bunch = photon_bunch
+            self.apply()
 
     def unitLabels(self):
         return ["Base energy [eV]", "Crystal name", "Miller H", "Miller K", "Miller L",
@@ -213,22 +214,22 @@ class OWAlignmentTool(widget.OWWidget):
             polarized_photon.set_unit_direction_vector(rotated_vector)
             outgoing_bunch.add(polarized_photon)
 
-            # Dump data to file if requested.
-            if self.DUMP_TO_FILE:
+        # Dump data to file if requested.
+        if self.DUMP_TO_FILE:
 
-                print("AlignmentTool: Writing data in {file}...\n".format(file=self.FILE_NAME))
+            print("AlignmentTool: Writing data in {file}...\n".format(file=self.FILE_NAME))
 
-                with open(self.FILE_NAME, "w") as file:
-                    try:
-                        file.write("#S 1 photon bunch\n"
-                                   "#N 9\n"
-                                   "#L  Energy [eV]  Vx  Vy  Vz  S0  S1  S2  S3  CircularPolarizationDegree\n")
-                        file.write(outgoing_bunch.to_string())
-                        file.close()
-                        print("File written to disk: %s \n"%self.FILE_NAME)
+            with open(self.FILE_NAME, "w") as file:
+                try:
+                    file.write("#S 1 photon bunch\n"
+                               "#N 9\n"
+                               "#L  Energy [eV]  Vx  Vy  Vz  S0  S1  S2  S3  CircularPolarizationDegree\n")
+                    file.write(outgoing_bunch.to_string())
+                    file.close()
+                    print("File written to disk: %s \n"%self.FILE_NAME)
 
-                    except:
-                        raise Exception("AlignmentTool: The data could not be dumped onto the specified file!\n")
+                except:
+                    raise Exception("AlignmentTool: The data could not be dumped onto the specified file!\n")
 
         self.send("photon bunch", outgoing_bunch)
         print("AlignmentTool: Photon bunch aligned.\n")

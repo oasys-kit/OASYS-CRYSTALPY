@@ -55,7 +55,7 @@ class OWPhotonViewer(widget.OWWidget):
         gui.comboBox(box1, self, "PLOT_TYPE", addSpace=True,
                      items=["Stokes(deviation)", "Stokes(energy)",
                             "Polarization degree(deviation)", "Polarization degree(energy)"],
-                     orientation="horizontal")
+                     orientation="horizontal",callback=self.do_plot)
 
     def _set_input(self, photon_bunch):
         """This function is called when the widget receives an input."""
@@ -74,6 +74,8 @@ class OWPhotonViewer(widget.OWWidget):
                                    photon_bunch.get_array("s2"),
                                    photon_bunch.get_array("s3")]
             self.polarization_degrees = photon_bunch.get_array("polarization degree")
+
+            self.do_plot()
 
     def get_plot_type(self):
 
