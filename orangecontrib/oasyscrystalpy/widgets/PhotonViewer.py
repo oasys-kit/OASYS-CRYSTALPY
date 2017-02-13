@@ -6,7 +6,7 @@ import os
 import sys
 import numpy as np
 from orangewidget.settings import Setting
-from crystalpy.util.PhotonBunch import PhotonBunch
+from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch
 from orangewidget import gui, widget
 
 
@@ -31,7 +31,7 @@ class OWPhotonViewer(widget.OWWidget):
     category = ""
     keywords = ["PhotonViewer", "crystalpy", "viewer", "oasyscrystalpy"]
     inputs = [{"name": "photon bunch",
-               "type": PhotonBunch,
+               "type": PolarizedPhotonBunch,
                "doc": "",
                "handler": "_set_input"},
               ]

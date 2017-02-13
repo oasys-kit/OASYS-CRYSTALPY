@@ -11,8 +11,8 @@ from crystalpy.diffraction.DiffractionSetup import DiffractionSetup
 from crystalpy.diffraction.Diffraction import Diffraction
 from crystalpy.diffraction.GeometryType import BraggDiffraction, BraggTransmission, LaueDiffraction, LaueTransmission
 from crystalpy.polarization.MuellerDiffraction import MuellerDiffraction
-from crystalpy.polarization.StokesVector import StokesVector
-from crystalpy.util.PhotonBunch import PhotonBunch
+from crystalpy.util.StokesVector import StokesVector
+from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch
 
 
 class OWCrystalPassive(widget.OWWidget):
@@ -29,12 +29,12 @@ class OWCrystalPassive(widget.OWWidget):
     # the widget takes in a collection of Photon objects and
     # sends out an object of the same type made up of scattered photons.
     inputs = [{"name": "photon bunch",
-               "type": PhotonBunch,
+               "type": PolarizedPhotonBunch,
                "handler": "_set_input",
                "doc": ""}]
 
     outputs = [{"name": "photon bunch",
-                "type": PhotonBunch,
+                "type": PolarizedPhotonBunch,
                 "doc": "transfer diffraction results"},
                # another possible output
                # {"name": "oasyscrystalpy-file",
@@ -282,13 +282,13 @@ class OWCrystalPassive(widget.OWWidget):
         # Create a Diffraction object.
         diffraction = Diffraction()
 
-        # Create a PhotonBunch object holding the results of the diffraction calculations.
+        # Create a PolarizedPhotonBunch object holding the results of the diffraction calculations.
         print("CrystalPassive: Calculating the outgoing photons...\n")
         outgoing_bunch = diffraction.calculateDiffractedPhotonBunch(diffraction_setup, INCLINATION_ANGLE)
 
         # Check that the result of the calculation is indeed a PhotonBunch object.
-        if not isinstance(outgoing_bunch, PhotonBunch):
-            raise Exception("CrystalPassive: Expected PhotonBunch as a result, found {}!\n".format(type(outgoing_bunch)))
+        if not isinstance(outgoing_bunch, PolarizedPhotonBunch):
+            raise Exception("CrystalPassive: Expected PolarizedPhotonBunch as a result, found {}!\n".format(type(outgoing_bunch)))
 
         # Dump data to file if requested.
         if DUMP_TO_FILE == 0:

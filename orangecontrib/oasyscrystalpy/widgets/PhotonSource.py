@@ -9,9 +9,9 @@ from orangewidget.settings import Setting
 from oasys.widgets import widget
 import orangecanvas.resources as resources
 
-from crystalpy.polarization.StokesVector import StokesVector
+from crystalpy.util.StokesVector import StokesVector
 from crystalpy.util.Vector import Vector
-from crystalpy.util.PhotonBunch import PhotonBunch, PolarizedPhoton
+from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch, PolarizedPhoton
 
 
 class OWPhotonSource(widget.OWWidget):
@@ -25,7 +25,7 @@ class OWPhotonSource(widget.OWWidget):
     category = ""
     keywords = ["oasyscrystalpy", "crystalpy", "PhotonSource"]
     outputs = [{"name": "photon bunch",
-                "type": PhotonBunch,
+                "type": PolarizedPhotonBunch,
                 "doc": "emitted photons"},
                # another possible output
                # {"name": "oasyscrystalpy-file",
@@ -245,7 +245,7 @@ class OWPhotonSource(widget.OWWidget):
                 incoming_photon = PolarizedPhoton(energy, direction, stokes_vector)
                 polarized_photons.append(incoming_photon)
 
-        photon_bunch = PhotonBunch(polarized_photons)
+        photon_bunch = PolarizedPhotonBunch(polarized_photons)
 
         # Dump data to file if requested.
         if self.DUMP_TO_FILE:

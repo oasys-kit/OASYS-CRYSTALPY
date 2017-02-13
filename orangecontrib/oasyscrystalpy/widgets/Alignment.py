@@ -10,9 +10,9 @@ from orangewidget.settings import Setting
 from oasys.widgets import widget
 import orangecanvas.resources as resources
 
-from crystalpy.polarization.StokesVector import StokesVector
+from crystalpy.util.StokesVector import StokesVector
 from crystalpy.util.Vector import Vector
-from crystalpy.util.PhotonBunch import PhotonBunch, PolarizedPhoton
+from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch, PolarizedPhoton
 
 
 class OWAlignmentTool(widget.OWWidget):
@@ -26,7 +26,7 @@ class OWAlignmentTool(widget.OWWidget):
     category = ""
     keywords = ["oasyscrystalpy", "crystalpy", "AlignmentTool"]
     outputs = [{"name": "photon bunch",
-                "type": PhotonBunch,
+                "type": PolarizedPhotonBunch,
                 "doc": "photons"},
                # another possible output
                # {"name": "oasyscrystalpy-file",
@@ -34,7 +34,7 @@ class OWAlignmentTool(widget.OWWidget):
                #  "doc": "transfer a file"},
                ]
     inputs = [{"name": "photon bunch",
-               "type": PhotonBunch,
+               "type": PolarizedPhotonBunch,
                "handler": "_set_input",
                "doc": "photons"}]
 
@@ -185,7 +185,7 @@ class OWAlignmentTool(widget.OWWidget):
 
         energy_in_kev = self.BASE_ENERGY / 1000.0
 
-        outgoing_bunch = PhotonBunch([])
+        outgoing_bunch = PolarizedPhotonBunch([])
 
         x_axis = Vector(1, 0, 0)
         neg_x_axis = Vector(-1, 0, 0)

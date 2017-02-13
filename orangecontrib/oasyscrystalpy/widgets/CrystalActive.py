@@ -11,7 +11,7 @@ from crystalpy.diffraction.DiffractionSetupSweeps import DiffractionSetupSweeps
 from crystalpy.diffraction.Diffraction import Diffraction
 from crystalpy.diffraction.GeometryType import BraggDiffraction, BraggTransmission, LaueDiffraction, LaueTransmission
 from crystalpy.polarization.MuellerDiffraction import MuellerDiffraction
-from crystalpy.polarization.StokesVector import StokesVector
+from crystalpy.util.StokesVector import StokesVector
 from orangecontrib.oasyscrystalpy.util.MailingBox import MailingBox
 
 

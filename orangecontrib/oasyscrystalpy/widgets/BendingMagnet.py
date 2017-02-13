@@ -15,9 +15,9 @@ from oasys.widgets import widget
 import orangecanvas.resources as resources
 
 # Project libraries.
-from crystalpy.polarization.StokesVector import StokesVector
+from crystalpy.util.StokesVector import StokesVector
 from crystalpy.util.Vector import Vector
-from crystalpy.util.PhotonBunch import PhotonBunch, PolarizedPhoton
+from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch, PolarizedPhoton
 
 #############################################################################################
 # srxraylib is a Python library by Manuel Sanchez del Rio (srio@esrf.fr)                    #
@@ -153,7 +153,7 @@ def stokes_calculator(energy, deviations, e_gev=6.04, i_a=0.2, hdiv_mrad=1.0, ec
     :param ec_ev: critical energy as in Green, pag.3.
     :type ec_ev: float
     :return: list of StokesVector objects.
-    :rtype: PhotonBunch
+    :rtype: PolarizedPhotonBunch
     """
     #
     # Calculate some parameters needed by sync_f (copied from sync_ang by Manuel Sanchez del Rio).
@@ -232,7 +232,7 @@ def stokes_calculator(energy, deviations, e_gev=6.04, i_a=0.2, hdiv_mrad=1.0, ec
     rotation_axis = Vector(-1, 0, 0)
 
     #
-    # Create the PhotonBunch.
+    # Create the PolarizedPhotonBunch.
     #
     # To match the deviation sign conventions with those adopted in the crystal diffraction part,
     # I have to define a positive deviation as a clockwise rotation from the y axis,
@@ -247,7 +247,7 @@ def stokes_calculator(energy, deviations, e_gev=6.04, i_a=0.2, hdiv_mrad=1.0, ec
         incoming_photon = PolarizedPhoton(energy, direction, stokes_vector)
         polarized_photons.append(incoming_photon)
 
-    photon_bunch = PhotonBunch(polarized_photons)
+    photon_bunch = PolarizedPhotonBunch(polarized_photons)
 
     return photon_bunch
 
@@ -263,7 +263,7 @@ class OWBendingMagnet(widget.OWWidget):
     category = ""
     keywords = ["oasyscrystalpy", "crystalpy", "BendingMagnet"]
     outputs = [{"name": "photon bunch",
-                "type": PhotonBunch,
+                "type": PolarizedPhotonBunch,
                 "doc": "emitted photons"},
                # another possible output
                # {"name": "oasyscrystalpy-file",
@@ -496,7 +496,7 @@ class OWBendingMagnet(widget.OWWidget):
                                  num=self.ANGLE_DEVIATION_POINTS)
 
         sync_ang_deviations = np.multiply(deviations, 1e3)  # sync_ang takes as an input angles in mrad, not urad.
-        photon_bunch = PhotonBunch([])
+        photon_bunch = PolarizedPhotonBunch([])
 
         for energy in energies:
 

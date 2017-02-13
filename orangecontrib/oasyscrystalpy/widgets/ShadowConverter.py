@@ -6,9 +6,9 @@ from oasys.widgets import widget
 from orangewidget import  gui
 from PyQt4 import QtGui
 
-from crystalpy.util.PhotonBunch import PhotonBunch, PolarizedPhoton
+from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch, PolarizedPhoton
 from crystalpy.util.Vector import Vector
-from crystalpy.polarization.StokesVector import StokesVector
+from crystalpy.util.StokesVector import StokesVector
 
 from orangecontrib.shadow.util.shadow_objects import ShadowBeam, EmittingStream, TTYGrabber
 from orangecontrib.shadow.util.shadow_util import ShadowCongruence, ShadowPlot
@@ -17,7 +17,7 @@ from orangecontrib.shadow.util.shadow_util import ShadowCongruence, ShadowPlot
 class ShadowConverter(widget.OWWidget):
 
     name = "ShadowConverter"
-    description = "Converts PhotonBunch to Shadow Beam and back"
+    description = "Converts PolarizedPhotonBunch to Shadow Beam and back"
     icon = "icons/converter.png"
     maintainer = "Manuel Sanchez del Rio"
     maintainer_email = "srio(@at@)esrf.eu"
@@ -28,7 +28,7 @@ class ShadowConverter(widget.OWWidget):
     # the widget takes in a collection of Photon objects and
     # sends out an object of the same type made up of scattered photons.
     inputs = [{"name": "photon bunch",
-               "type": PhotonBunch,
+               "type": PolarizedPhotonBunch,
                "handler": "_set_input_photon_bunch",
                "doc": ""},
               {"name": "Input Beam",
@@ -38,7 +38,7 @@ class ShadowConverter(widget.OWWidget):
               ]
 
     outputs = [{"name": "photon bunch",
-                "type": PhotonBunch,
+                "type": PolarizedPhotonBunch,
                 "doc": "transfer diffraction results"},
                 {"name":"Beam",
                 "type":ShadowBeam,
@@ -55,12 +55,12 @@ class ShadowConverter(widget.OWWidget):
          self.setFixedHeight(100)
 
          gui.separator(self.controlArea, height=20)
-         gui.label(self.controlArea, self, "         CONVERSION POINT: PhotonBunch <-> ShadowOuiBeam", orientation="horizontal")
+         gui.label(self.controlArea, self, "         CONVERSION POINT: PolarizedPhotonBunch <-> ShadowOuiBeam", orientation="horizontal")
          gui.rubber(self.controlArea)
 
     def _set_input_photon_bunch(self, photon_bunch):
         if photon_bunch is not None:
-            print("<><> CONVERTER has received PhotonBunch)")
+            print("<><> CONVERTER has received PolarizedPhotonBunch)")
             self._input_available = True
             self.incoming_bunch = photon_bunch
             self.send_photon_bunch(photon_bunch)
@@ -105,7 +105,7 @@ class ShadowConverter(widget.OWWidget):
         s3 = self.incoming_shadow_beam._beam.getshcol(33,nolost=1)
         energies = self.incoming_shadow_beam._beam.getshcol(11,nolost=1)
 
-        photon_bunch = PhotonBunch([])
+        photon_bunch = PolarizedPhotonBunch([])
         photons_list = list()
         for i,energy in enumerate(energies):
             photon = PolarizedPhoton(energy_in_ev=energies[i],
