@@ -125,8 +125,29 @@ class ShadowConverter(widget.OWWidget):
 
 
 if __name__ == "__main__":
-    a = QtGui.QApplication(sys.argv)
-    ow = ShadowConverter()
-    ow.show()
-    a.exec_()
-    ow.saveSettings()
+    # a = QtGui.QApplication(sys.argv)
+    # ow = ShadowConverter()
+    # ow.show()
+    # a.exec_()
+    # ow.saveSettings()
+    # import numpy
+    #
+    # s0 = 1.0
+    # s1 = 0.0
+    # s2 = 0.0
+    # s3 = 1.0
+    #
+    # if (s1**2 + s2**2 + s3**2 < s0**2):
+    #     s0 = numpy.sqrt(s1**2 + s2**2 + s3**2)
+    #     print("Warning: Beam is not fully polarized.")
+    #
+    # Ex2 = 0.5 * (s0 + s1)
+    # Ez2 = 0.5 * (s0 - s1)
+    #
+    # Ex = numpy.sqrt( Ex2 )
+    # Ez = numpy.sqrt( Ez2 )
+    #
+    # sin2delta = -0.5 * ( (s2**2 - s3**2) / ( 4 * Ex2 * Ez2) - 1)
+    # print("Ex2, Ez2, sin2delta: ",Ex2,Ez2,sin2delta)
+    # delta = numpy.arcsin( numpy.sqrt(sin2delta) )
+    # print("delta = %f"%(delta*180/numpy.pi))
