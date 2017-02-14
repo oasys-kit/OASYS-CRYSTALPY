@@ -103,9 +103,12 @@ class OWIdealLinearPolarizer(widget.OWWidget):
         if photon_bunch is not None:
             self._input_available = True
             self.incoming_bunch = photon_bunch
+            self.calculate_IdealLinearPolarizer()
+
+
 
     def calculate_IdealLinearPolarizer(self):
-        print("Inside calculate_IdealLinearPolarizer. ")
+
         if self._input_available:
             # TYPE=self.TYPE,THETA=self.THETA,DELTA=self.DELTA
             photon_bunch = self.incoming_bunch
@@ -120,26 +123,23 @@ class OWIdealLinearPolarizer(widget.OWWidget):
             elif self.TYPE == 4:
                 mm = MuellerMatrix.initialize_as_linear_polarizer_minus45()
 
-            print(mm.matrix)
-
-            # for index, polarized_photon in enumerate(photon_bunch):
-            #     print("before",polarized_photon.stokesVector().to_string())
-            #     polarized_photon.applyMuellerMatrix(mm)
-            #     print("after",polarized_photon.stokesVector().to_string())
+            photon_bunch_out = PolarizedPhotonBunch()
 
             for index in range(len(photon_bunch)):
-                polarized_photon = photon_bunch.get_photon_index(index)
-                print(type(photon_bunch[index]))
-                print("before",index,polarized_photon.stokesVector().to_string())
+                polarized_photon = photon_bunch.get_photon_index(index).duplicate()
 
                 polarized_photon.applyMuellerMatrix(mm)
-                print("  after",polarized_photon.stokesVector().to_string())
-                photon_bunch.set_photon_index(index,polarized_photon)
 
-                polarized_photon2 = photon_bunch.get_photon_index(index)
-                print("  after2",polarized_photon2.stokesVector().to_string())
-            self.incoming_bunch = photon_bunch
-            self.send("photon bunch", photon_bunch)
+                photon_bunch_out.add(polarized_photon)
+
+
+            self.send("photon bunch", photon_bunch_out)
+
+            return photon_bunch
+
+        else:
+            raise Exception("No photon beam available")
+
 
 
 if __name__ == "__main__":
