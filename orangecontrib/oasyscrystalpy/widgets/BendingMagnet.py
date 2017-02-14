@@ -91,13 +91,19 @@ def modified_sync_f(rAngle, rEnergy, polarization):
     rAngle = np.array(rAngle)
     rEnergy = float(rEnergy)
 
+    # note that for Sokolov-Ternov LCP has l2=l3=1/sqrt(2) and RCP has  l2=1/sqrt(2) and l3 = -1/sqrt(2)
+    # they use a system where magnetic field is pointing up and the electron is rotating ccw
+
+    # we use an electron rotating cw so the l3 are reversed
+
+
     if polarization == -1:  # LCP
         l2 = 1 / np.sqrt(2)
-        l3 = - l2
+        l3 = l2
 
     elif polarization == 1:  # RCP
         l2 = 1 / np.sqrt(2)
-        l3 = l2
+        l3 = - l2
 
     elif polarization == 2:  # sigma
         l2 = 1.0
@@ -229,7 +235,7 @@ def stokes_calculator(energy, deviations, e_gev=6.04, i_a=0.2, hdiv_mrad=1.0, ec
 
     # Following XOP conventions, the photon bunch travels along the y axis in the lab frame of reference.
     base_direction = Vector(0, 1, 0)
-    rotation_axis = Vector(-1, 0, 0)
+    rotation_axis = Vector(1, 0, 0)
 
     #
     # Create the PolarizedPhotonBunch.

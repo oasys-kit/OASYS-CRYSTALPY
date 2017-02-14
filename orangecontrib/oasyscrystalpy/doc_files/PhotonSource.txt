@@ -1,0 +1,26 @@
+
+
+Creates a source with a constant stokes vector (s0,s1,s2,s3) and variable angular deviation
+(along Z axis) and photon energy.
+
+
+For different polarizations set stokes parameters (s0,s1,s2,s3) are:
+
+1  1  0  0 : Linearly polarized (horizontal)
+1 -1  0  0 : Linearly polarized (vertical)
+1  0  1  0 : Linearly polarized (+45°)
+1  0 -1  0 : Linearly polarized (−45°)
+1  0  0  1 : Right-hand circularly polarized
+1  0  0 -1 : Left-hand circularly polarized
+1  0  0  0 : Unpolarized
+
+Using the electric field modulus Ex and Ez, and phase difference d=theta_z-theta_x the stokes parameters are:
+
+s0 = Ex**2 + Ez**2
+s1 = Ex**2 - Ez**2
+s2 = 2 Ex Ez cos(delta)
+s3 = 2 Ex Ez sin(delta)
+
+
+
+

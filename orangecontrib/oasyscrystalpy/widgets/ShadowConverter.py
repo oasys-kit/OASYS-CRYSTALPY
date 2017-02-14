@@ -1,6 +1,7 @@
 __author__ = 'srio'
 import sys
 import numpy
+import scipy.constants as codata
 
 from oasys.widgets import widget
 
@@ -69,7 +70,11 @@ class ShadowConverter(widget.OWWidget):
             self._input_available = True
             self.incoming_bunch = photon_bunch
             self.send_photon_bunch(photon_bunch)
-
+            #
+            # translate
+            #
+            shadow_beam = self.from_photon_bunch_to_shadow()
+            self.send_shadow_beam(shadow_beam)
 
 
     def _set_input_shadow_beam(self, beam):
@@ -113,7 +118,7 @@ class ShadowConverter(widget.OWWidget):
         photon_bunch = PolarizedPhotonBunch([])
         photons_list = list()
         for i,energy in enumerate(energies):
-            photon = PolarizedPhoton(energy_in_ev=energies[i],
+            photon = PolarizedPhoton(energy_in_ev=energy,
                                      direction_vector=Vector(vx[i],vy[i],vz[i]),
                                      stokes_vector=StokesVector([s0[i],s1[i],s2[i],s3[i]]))
             #photon_bunch.add(photon)
@@ -125,130 +130,95 @@ class ShadowConverter(widget.OWWidget):
 
         return photon_bunch
 
+    def create_dummy_oe(self):
+        empty_element = ShadowOpticalElement.create_empty_oe()
+
+        # empty_element._oe.DUMMY = self.workspace_units_to_cm
+
+        empty_element._oe.T_SOURCE     = 0.0
+        empty_element._oe.T_IMAGE = 0.0
+        empty_element._oe.T_INCIDENCE  = 0.0
+        empty_element._oe.T_REFLECTION = 180.0
+        empty_element._oe.ALPHA        = 0.0
+
+        empty_element._oe.FWRITE = 3
+        empty_element._oe.F_ANGLE = 0
+
+        return empty_element
+
+    def from_photon_bunch_to_shadow(self):
+
+        photon_beam = self.incoming_bunch
+
+        N =        photon_beam.get_array("number of photons")
+        energies = photon_beam.get_array("energies")
+        S0 =       photon_beam.get_array("s0")
+        S1 =       photon_beam.get_array("s1")
+        S2 =       photon_beam.get_array("s2")
+        S3 =       photon_beam.get_array("s3")
+        vx =       photon_beam.get_array("vx")
+        vy =       photon_beam.get_array("vy")
+        vz =       photon_beam.get_array("vz")
+
+        beam = Shadow.Beam(N)
+        A2EV = 2.0 *  numpy.pi / (codata.h*codata.c/codata.e*1e2)
+
+        for i in range(N):
+            s0 = S0[i]
+            s1 = S1[i]
+            s2 = S2[i]
+            s3 = S3[i]
+            energy = energies[i]
 
 
-def fromArray():
+            if (numpy.abs(s1**2 + s2**2 + s3**2 - s0**2) > 1e-4 ):
+                s0 = numpy.sqrt(s1**2 + s2**2 + s3**2)
+                print("Warning: Beam is not fully polarized.")
 
+            Ex2 = 0.5 * (s0 + s1)
+            Ez2 = 0.5 * (s0 - s1)
 
-    npoint = 1000
-    vx = numpy.zeros(npoint) + 0.0
-    vy = numpy.zeros(npoint) + 1.0
-    vz = numpy.zeros(npoint) + 0.0
+            Ex = numpy.sqrt( Ex2 )
+            Ez = numpy.sqrt( Ez2 )
 
-    s0 = numpy.zeros(npoint) + 1
-    s1 = numpy.zeros(npoint) + 0
-    s2 = numpy.zeros(npoint) + 1
-    s3 = numpy.zeros(npoint) + 0
+            if s0 == s1:
+                sin2delta = 0.0
+            else:
+                sin2delta = -0.5 * ( (s2**2 - s3**2) / ( 4 * Ex2 * Ez2) - 1)
 
-    energy = numpy.zeros(npoint) + 3000.0
-
-    photon_bunch = PolarizedPhotonBunch([])
-
-
-    photons_list = list()
-    for i in range(npoint):
-
-        photon = PolarizedPhoton(energy_in_ev=energy[i],
-                                 direction_vector=Vector(vx[i],vy[i],vz[i]),
-                                 stokes_vector=StokesVector([s0[i],s1[i],s2[i],s3[i]]))
-        #photon_bunch.add(photon)
-        photons_list.append(photon)
-
-
-    photon_bunch.add(photons_list)
-
-    return photon_bunch
-
-def create_dummy_oe():
-    empty_element = ShadowOpticalElement.create_empty_oe()
-
-    # empty_element._oe.DUMMY = self.workspace_units_to_cm
-
-    empty_element._oe.T_SOURCE     = 0.0
-    empty_element._oe.T_IMAGE = 0.0
-    empty_element._oe.T_INCIDENCE  = 0.0
-    empty_element._oe.T_REFLECTION = 180.0
-    empty_element._oe.ALPHA        = 0.0
-
-    empty_element._oe.FWRITE = 3
-    empty_element._oe.F_ANGLE = 0
-
-    return empty_element
-
-def from_photon_bunch_to_shadow():
-
-    # self.array_dict["number of photons"] = i
-    # self.array_dict["energies"] = energies
-    # self.array_dict["deviations"] = deviations
-    # self.array_dict["s0"] = stokes[0, :]
-    # self.array_dict["s1"] = stokes[1, :]
-    # self.array_dict["s2"] = stokes[2, :]
-    # self.array_dict["s3"] = stokes[3, :]
-#     self.array_dict["polarization degree"] = polarization_degrees
-#
-#
-# def get_array(self, key):
-
-    photon_beam = fromArray() # self.incoming_bunch
-
-    N =        photon_beam.get_array("number of photons")
-    energies = photon_beam.get_array("energies")
-    S0 =       photon_beam.get_array("s0")
-    S1 =       photon_beam.get_array("s1")
-    S2 =       photon_beam.get_array("s2")
-    S3 =       photon_beam.get_array("s3")
-
-    beam = Shadow.Beam(N)
-
-    for i in range(N):
-        s0 = S0[i]
-        s1 = S1[i]
-        s2 = S2[i]
-        s3 = S3[i]
-
-
-        if (s1**2 + s2**2 + s3**2 < s0**2):
-            s0 = numpy.sqrt(s1**2 + s2**2 + s3**2)
-            print("Warning: Beam is not fully polarized.")
-
-        Ex2 = 0.5 * (s0 + s1)
-        Ez2 = 0.5 * (s0 - s1)
-
-        Ex = numpy.sqrt( Ex2 )
-        Ez = numpy.sqrt( Ez2 )
-
-        if s0 == s1:
-            sin2delta = 0.0
-        else:
-            sin2delta = -0.5 * ( (s2**2 - s3**2) / ( 4 * Ex2 * Ez2) - 1)
-
-        delta = numpy.arcsin( numpy.sqrt(sin2delta) )
-
-        beam.rays[:,9] = Ex
-        beam.rays[:,10] = 0.0
-        beam.rays[:,11] = 0.0
-        beam.rays[:,12] = 0.0
-        beam.rays[:,13] = delta
-        beam.rays[:,14] = 0.0
-        beam.rays[:,15] = 0.0
-        beam.rays[:,16] = Ez
-
-        # add directions
-        # add energies
+            delta = numpy.arcsin( numpy.sign(s3) * numpy.sqrt(sin2delta) )
+            beam.rays[i,0] = 0.0 # x
+            beam.rays[i,1] = 0.0 # x
+            beam.rays[i,2] = 0.0 # x
+            beam.rays[i,3] = vx[i]  # v
+            beam.rays[i,4] = vy[i]  # v
+            beam.rays[i,5] = vz[i]  # v
+            beam.rays[i,6] = Ex  # Es
+            beam.rays[i,7] = 0.0 # Es
+            beam.rays[i,8] = 0.0 # Es
+            beam.rays[i,9] = 1.0 # lost ray flag
+            beam.rays[i,10] = A2EV * energy # k
+            beam.rays[i,11] = i  # ray index
+            beam.rays[i,12] = 0.0 # path length
+            beam.rays[i,13] = 0.0   # phase-s
+            beam.rays[i,14] = delta # phase-ps
+            beam.rays[i,15] = 0.0   # Ep
+            beam.rays[i,16] = 0.0   # Ep
+            beam.rays[i,17] = Ez    # Ep
 
 
 
-    beam_out = ShadowBeam()
-    # beam_out.loadFromFile(self.beam_file_name)
-    beam_out.setBeam(beam)
-    beam_out.history.append(ShadowOEHistoryItem()) # fake Source
-    beam_out._oe_number = 0
+        beam_out = ShadowBeam(beam=beam)
 
-    # just to create a safe history for possible re-tracing
-    beam_out.traceFromOE(beam_out, create_dummy_oe(), history=True)
+        beam_out.history.append(ShadowOEHistoryItem()) # fake Source
+        beam_out._oe_number = 0
 
-    # self.send("Beam", beam_out)
+        # just to create a safe history for possible re-tracing
+        beam_out.traceFromOE(beam_out, self.create_dummy_oe(), history=True)
 
+        #self.send("Beam", beam_out)
+
+        return beam_out
 
 
 
@@ -260,6 +230,6 @@ if __name__ == "__main__":
     # a.exec_()
     # ow.saveSettings()
 
-    # a = from_photon_bunch_to_shadow()
     pass
+
 
