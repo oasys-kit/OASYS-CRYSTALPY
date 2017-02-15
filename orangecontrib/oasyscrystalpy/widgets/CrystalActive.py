@@ -1,6 +1,5 @@
 import numpy as np
 from PyQt4.QtGui import QIntValidator, QDoubleValidator, QApplication, QSizePolicy
-# from PyMca5.PyMcaIO import specfilewrapper as specfile
 from orangewidget import gui
 from orangewidget.settings import Setting
 from oasys.widgets import widget
@@ -16,9 +15,9 @@ from orangecontrib.oasyscrystalpy.util.MailingBox import MailingBox
 
 
 class OWCrystalActive(widget.OWWidget):
-    name = "CrystalActive"
+    name = "Crystal Calculator"
     id = "orange.widgets.dataCrystalActive"
-    description = "Application to compute the diffracted intensities and polarization from a specified crystal setup."
+    description = "Compute the diffracted intensities and polarization from a crystal."
     icon = "icons/Crystal.png"
     author = "create_widget.py"
     maintainer_email = "cappelli@esrf.fr"

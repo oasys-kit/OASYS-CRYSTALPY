@@ -15,7 +15,7 @@ from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch
 
 
 class OWCrystalPassive(widget.OWWidget):
-    name = "CrystalPassive"
+    name = "Crystal"
     id = "orange.widgets.dataCrystalPassive"
     description = "Application to compute..."
     icon = "icons/Crystal.png"
