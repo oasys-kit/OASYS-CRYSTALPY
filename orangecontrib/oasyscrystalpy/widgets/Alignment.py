@@ -192,7 +192,8 @@ class OWAlignmentTool(widget.OWWidget):
                                           self.MILLER_L)
 
         # TODO: change rotation using the crystalpy tool to get full alignment.
-        for polarized_photon in self.incoming_bunch:
+        for i in range(self.incoming_bunch.getNumberOfPhotons()):
+            polarized_photon = self.incoming_bunch.getPhotonIndex(i)
 
             if self.MODE == 0:  # ray-to-crystal
                 rotated_vector = polarized_photon.unitDirectionVector().\
@@ -205,8 +206,8 @@ class OWAlignmentTool(widget.OWWidget):
             else:
                 raise Exception("AlignmentTool: The alignment mode could not be interpreted correctly!\n")
 
-            polarized_photon.set_unit_direction_vector(rotated_vector)
-            outgoing_bunch.add(polarized_photon)
+            polarized_photon.setUnitDirectionVector(rotated_vector)
+            outgoing_bunch.addPhoton(polarized_photon)
 
         # Dump data to file if requested.
         if self.DUMP_TO_FILE:
@@ -218,7 +219,7 @@ class OWAlignmentTool(widget.OWWidget):
                     file.write("#S 1 photon bunch\n"
                                "#N 9\n"
                                "#L  Energy [eV]  Vx  Vy  Vz  S0  S1  S2  S3  CircularPolarizationDegree\n")
-                    file.write(outgoing_bunch.to_string())
+                    file.write(outgoing_bunch.toString())
                     file.close()
                     print("File written to disk: %s \n"%self.FILE_NAME)
 

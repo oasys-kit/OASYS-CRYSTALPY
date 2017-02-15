@@ -292,7 +292,7 @@ class OWCrystal(widget.OWWidget):
                     file.write("#S 1 photon bunch\n"
                                "#N 8\n"
                                "#L  Energy [eV]  Vx  Vy  Vz  S0  S1  S2  S3\n")
-                    file.write(outgoing_bunch.to_string())
+                    file.write(outgoing_bunch.toString())
                     file.close()
                     print("File written to disk: %s"%FILE_NAME)
                 except:
