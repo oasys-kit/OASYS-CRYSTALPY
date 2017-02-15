@@ -504,7 +504,7 @@ class OWBendingMagnet(widget.OWWidget):
 
             photon_bunch_to_add = stokes_calculator(energy, sync_ang_deviations, self.ELECTRON_ENERGY,
                                                     self.ELECTRON_CURRENT, self.HORIZONTAL_DIVERGENCE, float(ec_ev))
-            photon_bunch.add(photon_bunch_to_add)
+            photon_bunch.addBunch(photon_bunch_to_add)
 
         #
         # Dump data to file if requested.
@@ -518,7 +518,7 @@ class OWBendingMagnet(widget.OWWidget):
                     file.write("#S 1 photon bunch\n"
                                "#N 9\n"
                                "#L  Energy [eV]  Vx  Vy  Vz  S0  S1  S2  S3\n")
-                    file.write(photon_bunch.to_string())
+                    file.write(photon_bunch.toString())
                     file.close()
                     print("File written to disk: %s"%self.FILE_NAME)
                 except:
