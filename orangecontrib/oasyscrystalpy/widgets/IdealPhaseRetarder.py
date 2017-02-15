@@ -1,6 +1,5 @@
 import numpy as np
 from PyQt4.QtGui import QIntValidator, QDoubleValidator, QApplication, QSizePolicy
-# from PyMca5.PyMcaIO import specfilewrapper as specfile
 from orangewidget import gui
 from orangewidget.settings import Setting
 from oasys.widgets import widget
@@ -17,7 +16,7 @@ class OWIdealPhaseRetarder(widget.OWWidget):
     icon = "icons/IdealPhaseRetarder.png"
     author = "create_widget.py"
     maintainer_email = "srio@esrf.fr"
-    priority = 10
+    priority = 35
     category = ""
     keywords = ["oasyscrystalpy", "IdealPhaseRetarder"]
     inputs = [{"name": "photon bunch",
@@ -31,18 +30,13 @@ class OWIdealPhaseRetarder(widget.OWWidget):
                 "doc": "transfer diffraction results"},
                ]
 
-    # widget input (if needed)
-    # inputs = [{"name": "Name",
-    #            "type": type,
-    #            "handler": None,
-    #            "doc": ""}]
-
     want_main_area = False
 
     TYPE = Setting(0)
     THETA = Setting(0.0)
     DELTA = Setting(0.0)
-
+    DUMP_TO_FILE = Setting(1)
+    FILE_NAME = Setting("phase_retarder.dat")
 
     def __init__(self):
         super().__init__()
@@ -83,14 +77,31 @@ class OWIdealPhaseRetarder(widget.OWWidget):
                      valueType=float, validator=QDoubleValidator())
         self.show_at(self.unitFlags()[idx], box1) 
 
+        # widget index 3
+        idx += 1
+        box1 = gui.widgetBox(box)
+        gui.comboBox(box1, self, "DUMP_TO_FILE",
+                     label=self.unitLabels()[idx], addSpace=True,
+                     items=["No","Yes"],
+                     orientation="horizontal")
+        self.show_at(self.unitFlags()[idx], box1)
+
+        # widget index 4
+        idx += 1
+        box1 = gui.widgetBox(box)
+        gui.lineEdit(box1, self, "FILE_NAME",
+                     label=self.unitLabels()[idx], addSpace=True)
+        self.show_at(self.unitFlags()[idx], box1)
+
         gui.rubber(self.controlArea)
 
     def unitLabels(self):
-         return ["Type", "angle of the fast axis theta [deg]","phase difference between the fast and slow axes delta [deg]"]
+         return ["Type", "angle of the fast axis theta [deg]",
+                 "phase difference between the fast and slow axes delta [deg]","Dump to file","File name"]
 
 
     def unitFlags(self):
-         return ["True", "self.TYPE == 0", "self.TYPE == 0"]
+         return ["True", "self.TYPE == 0", "self.TYPE == 0","True","self.DUMP_TO_FILE == 1"]
 
 
     def defaults(self):
@@ -111,10 +122,11 @@ class OWIdealPhaseRetarder(widget.OWWidget):
 
 
     def _set_input_photon_bunch(self, photon_bunch):
+        self._input_available = False
         if photon_bunch is not None:
-            print("<><> IdealPhaseRetarder has received PolarizedPhotonBunch)")
             self._input_available = True
             self.incoming_bunch = photon_bunch
+            self.calculate_IdealPhaseRetarder()
 
     def calculate_IdealPhaseRetarder(self):
         print("Inside calculate_IdealPhaseRetarder. ")
@@ -131,11 +143,39 @@ class OWIdealPhaseRetarder(widget.OWWidget):
             elif self.TYPE == 3:
                 mm = MuellerMatrix.initialize_as_half_wave_plate()
 
+            # print(mm.matrix)
 
-            for index, polarized_photon in enumerate(photon_bunch):
+            photon_bunch_out = PolarizedPhotonBunch()
+
+            for index in range(len(photon_bunch)):
+                polarized_photon = photon_bunch.get_photon_index(index).duplicate()
                 polarized_photon.applyMuellerMatrix(mm)
+                photon_bunch_out.add(polarized_photon)
 
-            self.send("photon bunch", photon_bunch)
+
+            # Dump data to file if requested.
+            if self.DUMP_TO_FILE == 1:
+
+                print("CrystalPassive: Writing data in {file}...\n".format(file=self.FILE_NAME))
+
+                with open(self.FILE_NAME, "w") as file:
+                    try:
+                        file.write("#S 1 photon bunch\n"
+                                   "#N 9\n"
+                                   "#L  Energy [eV]  Vx  Vy  Vz  S0  S1  S2  S3  circular polarization\n")
+
+                        tmp = photon_bunch_out.to_string()
+                        file.write(tmp)
+                        file.close()
+                        print("File written to disk: %s"%self.FILE_NAME)
+                    except:
+                        raise Exception("IdealPhaseRetarder: The data could not be dumped onto the specified file!\n")
+
+
+            self.send("photon bunch", photon_bunch_out)
+
+        else:
+            raise Exception("No photon beam available")
 
 
 

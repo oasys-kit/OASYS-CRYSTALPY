@@ -19,7 +19,7 @@ class OWCrystalViewer(widget.OWWidget):
     icon = "icons/CrystalViewer.png"
     author = ""
     maintainer_email = "cappelli@esrf.fr"
-    priority = 10
+    priority = 55
     category = ""
     keywords = ["CrystalViewer", "crystalpy", "viewer", "oasyscrystalpy"]
     inputs = [{"name": "diffraction data",

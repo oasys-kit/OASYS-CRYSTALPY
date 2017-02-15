@@ -265,16 +265,12 @@ class OWBendingMagnet(widget.OWWidget):
     icon = "icons/BendingMagnet.png"
     author = "create_widget.py"
     maintainer_email = "cappelli@esrf.fr"
-    priority = 10
+    priority = 15
     category = ""
     keywords = ["oasyscrystalpy", "crystalpy", "BendingMagnet"]
     outputs = [{"name": "photon bunch",
                 "type": PolarizedPhotonBunch,
                 "doc": "emitted photons"},
-               # another possible output
-               # {"name": "oasyscrystalpy-file",
-               #  "type": str,
-               #  "doc": "transfer a file"},
                ]
 
     # widget input (if needed)
@@ -523,7 +519,8 @@ class OWBendingMagnet(widget.OWWidget):
                                "#N 9\n"
                                "#L  Energy [eV]  Vx  Vy  Vz  S0  S1  S2  S3\n")
                     file.write(photon_bunch.to_string())
-
+                    file.close()
+                    print("File written to disk: %s"%self.FILE_NAME)
                 except:
                     raise Exception("BendingMagnet: The data could not be dumped onto the specified file!\n")
 

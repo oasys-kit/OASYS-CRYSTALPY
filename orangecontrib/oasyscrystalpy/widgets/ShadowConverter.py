@@ -27,7 +27,7 @@ class ShadowConverter(widget.OWWidget):
     icon = "icons/converter.png"
     maintainer = "Manuel Sanchez del Rio"
     maintainer_email = "srio(@at@)esrf.eu"
-    priority = 10
+    priority = 45
     category = "crystalpy"
     keywords = ["PhotonViewer", "crystalpy", "viewer", "oasyscrystalpy", "shadowOui"]
 
@@ -96,11 +96,9 @@ class ShadowConverter(widget.OWWidget):
 
 
     def send_photon_bunch(self, photon_bunch):
-        print("<><> sending photon bunch")
         self.send("photon bunch", photon_bunch)
 
     def send_shadow_beam(self, shadow_beam):
-        print("<><> sending shadow beam")
         self.send("Beam", shadow_beam)
 
     def from_shadow_beam_to_photon_bunch(self):
@@ -133,7 +131,8 @@ class ShadowConverter(widget.OWWidget):
     def create_dummy_oe(self):
         empty_element = ShadowOpticalElement.create_empty_oe()
 
-        # empty_element._oe.DUMMY = self.workspace_units_to_cm
+        # TODO: check this
+        empty_element._oe.DUMMY = 100.0 # self.workspace_units_to_cm
 
         empty_element._oe.T_SOURCE     = 0.0
         empty_element._oe.T_IMAGE = 0.0

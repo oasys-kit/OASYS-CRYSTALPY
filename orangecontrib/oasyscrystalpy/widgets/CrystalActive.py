@@ -22,23 +22,14 @@ class OWCrystalActive(widget.OWWidget):
     icon = "icons/Crystal.png"
     author = "create_widget.py"
     maintainer_email = "cappelli@esrf.fr"
-    priority = 10
+    priority = 50
     category = ""
     keywords = ["oasyscrystalpy", "crystalpy", "CrystalActive"]
     outputs = [{"name": "diffraction data",
                 "type": MailingBox,
                 "doc": "transfer diffraction results"},
-               # another possible output
-               # {"name": "oasyscrystalpy-file",
-               #  "type": str,
-               #  "doc": "transfer a file"},
                ]
 
-    # widget input (if needed)
-    # inputs = [{"name": "Name",
-    #            "type": type,
-    #            "handler": None,
-    #            "doc": ""}]
 
     want_main_area = False
 
@@ -63,8 +54,8 @@ class OWCrystalActive(widget.OWWidget):
     STOKES_S2 = Setting(0.0)
     STOKES_S3 = Setting(0.0)
     INCLINATION_ANGLE = Setting(45.0)  # degrees
-    DUMP_TO_FILE = Setting(1)  # No
-    FILE_NAME = Setting("tmp.dat")
+    DUMP_TO_FILE = Setting(1)  # Yes
+    FILE_NAME = "crystal_calculator.dat"
 
     def __init__(self):
         super().__init__()
@@ -257,7 +248,7 @@ class OWCrystalActive(widget.OWWidget):
         box1 = gui.widgetBox(box)
         gui.comboBox(box1, self, "DUMP_TO_FILE",
                      label=self.unitLabels()[idx], addSpace=True,
-                     items=["Yes", "No"],
+                     items=["No", "Yes"],
                      orientation="horizontal")
         self.show_at(self.unitFlags()[idx], box1)
         
@@ -288,7 +279,7 @@ class OWCrystalActive(widget.OWWidget):
                 "True",          "self.ENERGY_POINTS == 1", "self.ENERGY_POINTS != 1", "self.ENERGY_POINTS != 1",
                 "True",                     "self.ANGLE_DEVIATION_POINTS == 1", "self.ANGLE_DEVIATION_POINTS != 1", "self.ANGLE_DEVIATION_POINTS != 1",
                 "True",                "True",                "True",                "True",
-                "True",                    "True",          "self.DUMP_TO_FILE == 0"]
+                "True",                    "True",          "self.DUMP_TO_FILE == 1"]
 
     def compute(self):
 
@@ -436,7 +427,7 @@ class OWCrystalActive(widget.OWWidget):
         output_data = MailingBox(diffraction_result, mueller_result)
 
         # Dump data to file if requested.
-        if DUMP_TO_FILE == 0:
+        if DUMP_TO_FILE == 1:
 
             print("CrystalActive: Writing data in {file}...\n".format(file=FILE_NAME))
 
@@ -502,6 +493,8 @@ class OWCrystalActive(widget.OWWidget):
                                         s2=mueller_result.s2_by_energy(ENERGY_MIN),
                                         s3=mueller_result.s3_by_energy(ENERGY_MIN),
                                         pol_degree=mueller_result.polarization_degree_by_energy(ENERGY_MIN)))
+                    file.close()
+                    print("File written to disk: %s"%FILE_NAME)
                 except:
                     raise Exception("CrystalActive: The data could not be dumped onto the specified file!")
 

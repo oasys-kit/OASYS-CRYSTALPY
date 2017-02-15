@@ -27,7 +27,7 @@ class OWPhotonViewer(widget.OWWidget):
     icon = "icons/CrystalViewer.png"
     author = ""
     maintainer_email = "cappelli@esrf.fr"
-    priority = 10
+    priority = 40
     category = ""
     keywords = ["PhotonViewer", "crystalpy", "viewer", "oasyscrystalpy"]
     inputs = [{"name": "photon bunch",

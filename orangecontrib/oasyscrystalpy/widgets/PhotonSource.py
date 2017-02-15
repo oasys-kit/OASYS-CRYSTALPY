@@ -3,7 +3,6 @@ import sys
 import os
 
 from PyQt4.QtGui import QIntValidator, QDoubleValidator, QApplication, QSizePolicy
-# from PyMca5.PyMcaIO import specfilewrapper as specfile
 from orangewidget import gui
 from orangewidget.settings import Setting
 from oasys.widgets import widget
@@ -26,18 +25,8 @@ class OWPhotonSource(widget.OWWidget):
     keywords = ["oasyscrystalpy", "crystalpy", "PhotonSource"]
     outputs = [{"name": "photon bunch",
                 "type": PolarizedPhotonBunch,
-                "doc": "emitted photons"},
-               # another possible output
-               # {"name": "oasyscrystalpy-file",
-               #  "type": str,
-               #  "doc": "transfer a file"},
-               ]
+                "doc": "emitted photons"},]
 
-    # widget input (if needed)
-    # inputs = [{"name": "Name",
-    #            "type": type,
-    #            "handler": None,
-    #            "doc": ""}]
 
     want_main_area = False
 

@@ -1,17 +1,16 @@
 import numpy as np
 from PyQt4.QtGui import QIntValidator, QDoubleValidator, QApplication, QSizePolicy
-# from PyMca5.PyMcaIO import specfilewrapper as specfile
 from orangewidget import gui
 from orangewidget.settings import Setting
 from oasys.widgets import widget
 import orangecanvas.resources as resources
+
 import sys
 import os
+
 from crystalpy.diffraction.DiffractionSetup import DiffractionSetup
 from crystalpy.diffraction.Diffraction import Diffraction
 from crystalpy.diffraction.GeometryType import BraggDiffraction, BraggTransmission, LaueDiffraction, LaueTransmission
-from crystalpy.polarization.MuellerDiffraction import MuellerDiffraction
-from crystalpy.util.StokesVector import StokesVector
 from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch
 
 
@@ -22,7 +21,7 @@ class OWCrystalPassive(widget.OWWidget):
     icon = "icons/Crystal.png"
     author = "create_widget.py"
     maintainer_email = "cappelli@esrf.fr"
-    priority = 10
+    priority = 25
     category = ""
     keywords = ["oasyscrystalpy", "crystalpy", "CrystalPassive"]
 
@@ -36,24 +35,20 @@ class OWCrystalPassive(widget.OWWidget):
     outputs = [{"name": "photon bunch",
                 "type": PolarizedPhotonBunch,
                 "doc": "transfer diffraction results"},
-               # another possible output
-               # {"name": "oasyscrystalpy-file",
-               #  "type": str,
-               #  "doc": "transfer a file"},
                ]
 
     want_main_area = False
 
-    GEOMETRY_TYPE = Setting(0)  # Bragg diffraction
-    CRYSTAL_NAME = Setting(0)  # Si
-    THICKNESS = Setting(0.01)  # centimeters
-    MILLER_H = Setting(1)  # int
-    MILLER_K = Setting(1)  # int
-    MILLER_L = Setting(1)  # int
-    ASYMMETRY_ANGLE = Setting(0.0)  # degrees
-    AZIMUTHAL_ANGLE = Setting(90.0)  # degrees
+    GEOMETRY_TYPE = Setting(0)         # Bragg diffraction
+    CRYSTAL_NAME = Setting(0)          # Si
+    THICKNESS = Setting(0.01)          # centimeters
+    MILLER_H = Setting(1)              # int
+    MILLER_K = Setting(1)              # int
+    MILLER_L = Setting(1)              # int
+    ASYMMETRY_ANGLE = Setting(0.0)     # degrees
+    AZIMUTHAL_ANGLE = Setting(90.0)    # degrees
     INCLINATION_ANGLE = Setting(45.0)  # degrees
-    DUMP_TO_FILE = Setting(1)  # No
+    DUMP_TO_FILE = Setting(1)          # Yes
     FILE_NAME = Setting("crystal_passive.dat")
 
     def __init__(self):
@@ -153,7 +148,7 @@ class OWCrystalPassive(widget.OWWidget):
         box1 = gui.widgetBox(box)
         gui.comboBox(box1, self, "DUMP_TO_FILE",
                      label=self.unitLabels()[idx], addSpace=True,
-                     items=["Yes", "No"],
+                     items=["No", "Yes"],
                      orientation="horizontal")
         self.show_at(self.unitFlags()[idx], box1)
         
@@ -184,7 +179,7 @@ class OWCrystalPassive(widget.OWWidget):
     def unitFlags(self):
         return ["True",          "True",         "True",           "True",     "True",     "True",
                 "True",                  "True",
-                "True",                    "True",         "self.DUMP_TO_FILE == 0"]
+                "True",                    "True",         "self.DUMP_TO_FILE == 1"]
 
     def compute(self):
 
@@ -206,10 +201,7 @@ class OWCrystalPassive(widget.OWWidget):
                                                                        INCLINATION_ANGLE=self.INCLINATION_ANGLE,
                                                                        DUMP_TO_FILE=self.DUMP_TO_FILE,
                                                                        FILE_NAME=self.FILE_NAME)
-        # if fileName == None:
-        #     print("No file to send")
-        # else:
-        #     self.send("oasyscrystalpy-file",fileName)
+
         self.send("photon bunch", outgoing_bunch)
         print("CrystalPassive: The results were sent to the viewer.\n")
 
@@ -297,34 +289,12 @@ class OWCrystalPassive(widget.OWWidget):
 
             with open(FILE_NAME, "w") as file:
                 try:
-                    # file.write("VALUES:\n\n"
-                    #            "geometry type: {geometry_type}\n"
-                    #            "crystal name: {crystal_name}\n"
-                    #            "thickness: {thickness}\n"
-                    #            "miller H: {miller_h}\n"
-                    #            "miller K: {miller_k}\n"
-                    #            "miller L: {miller_l}\n"
-                    #            "asymmetry angle: {asymmetry_angle}\n"
-                    #            "azimuthal angle: {azimuthal_angle}\n"
-                    #            "inclination angle: {inclination_angle}\n\n".format(
-                    #                     geometry_type=GEOMETRY_TYPE_OBJECT.description(),
-                    #                     crystal_name=CRYSTAL_NAME,
-                    #                     thickness=THICKNESS,
-                    #                     miller_h=MILLER_H,
-                    #                     miller_k=MILLER_K,
-                    #                     miller_l=MILLER_L,
-                    #                     asymmetry_angle=ASYMMETRY_ANGLE,
-                    #                     azimuthal_angle=AZIMUTHAL_ANGLE,
-                    #                     inclination_angle=INCLINATION_ANGLE))
-                    # file.write("INCOMING PHOTONS:\n\n")
-                    # file.write(incoming_bunch.to_string())
-                    # file.write("OUTGOING PHOTONS:\n\n")
-                    # file.write(outgoing_bunch.to_string())
                     file.write("#S 1 photon bunch\n"
                                "#N 8\n"
                                "#L  Energy [eV]  Vx  Vy  Vz  S0  S1  S2  S3\n")
                     file.write(outgoing_bunch.to_string())
-
+                    file.close()
+                    print("File written to disk: %s"%FILE_NAME)
                 except:
                     raise Exception("CrystalPassive: The data could not be dumped onto the specified file!\n")
 

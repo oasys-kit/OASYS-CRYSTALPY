@@ -4,13 +4,11 @@ import os
 import xraylib
 
 from PyQt4.QtGui import QIntValidator, QDoubleValidator, QApplication, QSizePolicy
-# from PyMca5.PyMcaIO import specfilewrapper as specfile
 from orangewidget import gui
 from orangewidget.settings import Setting
 from oasys.widgets import widget
 import orangecanvas.resources as resources
 
-from crystalpy.util.StokesVector import StokesVector
 from crystalpy.util.Vector import Vector
 from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch, PolarizedPhoton
 
@@ -22,16 +20,12 @@ class OWAlignmentTool(widget.OWWidget):
     icon = "icons/Alignment.png"
     author = "create_widget.py"
     maintainer_email = "cappelli@esrf.fr"
-    priority = 10
+    priority = 20
     category = ""
     keywords = ["oasyscrystalpy", "crystalpy", "AlignmentTool"]
     outputs = [{"name": "photon bunch",
                 "type": PolarizedPhotonBunch,
                 "doc": "photons"},
-               # another possible output
-               # {"name": "oasyscrystalpy-file",
-               #  "type": str,
-               #  "doc": "transfer a file"},
                ]
     inputs = [{"name": "photon bunch",
                "type": PolarizedPhotonBunch,
