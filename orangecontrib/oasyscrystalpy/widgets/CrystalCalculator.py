@@ -14,16 +14,16 @@ from crystalpy.util.StokesVector import StokesVector
 from orangecontrib.oasyscrystalpy.util.MailingBox import MailingBox
 
 
-class OWCrystalActive(widget.OWWidget):
+class OWCrystalCalculator(widget.OWWidget):
     name = "Crystal Calculator"
-    id = "orange.widgets.dataCrystalActive"
+    id = "orange.widgets.dataCrystalCalculator"
     description = "Compute the diffracted intensities and polarization from a crystal."
-    icon = "icons/Crystal.png"
+    icon = "icons/CrystalCalculator.png"
     author = "create_widget.py"
     maintainer_email = "cappelli@esrf.fr"
     priority = 50
     category = ""
-    keywords = ["oasyscrystalpy", "crystalpy", "CrystalActive"]
+    keywords = ["oasyscrystalpy", "crystalpy", "CrystalCalculator"]
     outputs = [{"name": "diffraction data",
                 "type": MailingBox,
                 "doc": "transfer diffraction results"},
@@ -260,7 +260,7 @@ class OWCrystalActive(widget.OWWidget):
 
         self.process_showers()
 
-        print("CrystalActive: Active crystal initialized.\n")
+        print("CrystalCalculator: Crystal calculator initialized.\n")
 
         gui.rubber(self.controlArea)
 
@@ -291,7 +291,7 @@ class OWCrystalActive(widget.OWWidget):
         if self.ANGLE_DEVIATION_POINTS == 1:
             self.ANGLE_DEVIATION_MIN = self.ANGLE_DEVIATION_MAX = self.ANGLE_DEVIATION
 
-        plot_data = OWCrystalActive.calculate_external_CrystalActive(GEOMETRY_TYPE=self.GEOMETRY_TYPE,
+        plot_data = OWCrystalCalculator.calculate_external_CrystalCalculator(GEOMETRY_TYPE=self.GEOMETRY_TYPE,
                                                                      CRYSTAL_NAME=CRYSTAL_NAME,
                                                                      THICKNESS=self.THICKNESS,
                                                                      MILLER_H=self.MILLER_H,
@@ -317,7 +317,7 @@ class OWCrystalActive(widget.OWWidget):
         # else:
         #     self.send("oasyscrystalpy-file",fileName)
         self.send("diffraction data", plot_data)
-        print("CrystalActive: The results were sent to the viewer.\n")
+        print("CrystalCalculator: The results were sent to the viewer.\n")
 
     def defaults(self):
         self.resetSettings()
@@ -325,20 +325,20 @@ class OWCrystalActive(widget.OWWidget):
         return
 
     def get_doc(self):
-        print("CrystalActive: help pressed.")
+        print("CrystalCalculator: help pressed.")
         home_doc = resources.package_dirname("orangecontrib.oasyscrystalpy") + "/doc_files/"
-        filename1 = os.path.join(home_doc, 'CrystalActive'+'.txt')
-        print("CrystalActive: Opening file %s" % filename1)
+        filename1 = os.path.join(home_doc, 'CrystalCalculator'+'.txt')
+        print("CrystalCalculator: Opening file %s" % filename1)
         if sys.platform == 'darwin':
             command = "open -a TextEdit "+filename1+" &"
         elif sys.platform == 'linux':
             command = "gedit "+filename1+" &"
         else:
-            raise Exception("CrystalActive: sys.platform did not yield an acceptable value!")
+            raise Exception("CrystalCalculator: sys.platform did not yield an acceptable value!")
         os.system(command)
 
     @staticmethod
-    def calculate_external_CrystalActive(GEOMETRY_TYPE,
+    def calculate_external_CrystalCalculator(GEOMETRY_TYPE,
                                          CRYSTAL_NAME,
                                          THICKNESS,
                                          MILLER_H,
@@ -378,15 +378,15 @@ class OWCrystalActive(widget.OWWidget):
             GEOMETRY_TYPE_OBJECT = LaueTransmission()
 
         else:
-            raise Exception("CrystalActive: The geometry type could not be interpreted!")
+            raise Exception("CrystalCalculator: The geometry type could not be interpreted!")
 
         # Create a diffraction setup.
         # At this stage I translate angles in radians, energy in eV and all other values in SI units.
-        print("CrystalActive: Creating a diffraction setup...\n")
+        print("CrystalCalculator: Creating a diffraction setup...\n")
 
         if ENERGY_POINTS == 1:
             if ENERGY_MIN != ENERGY_MAX:
-                raise Exception("CrystalActive: Finite energy range with only one sampled value!")
+                raise Exception("CrystalCalculator: Finite energy range with only one sampled value!")
 
         diffraction_setup = DiffractionSetupSweeps(geometry_type=GEOMETRY_TYPE_OBJECT,  # GeometryType object
                                                    crystal_name=str(CRYSTAL_NAME),  # string
@@ -407,7 +407,7 @@ class OWCrystalActive(widget.OWWidget):
         diffraction = Diffraction()
 
         # Create a DiffractionResult object holding the results of the diffraction calculations.
-        print("CrystalActive: Calculating the diffraction results...\n")
+        print("CrystalCalculator: Calculating the diffraction results...\n")
         diffraction_result = diffraction.calculateDiffraction(diffraction_setup)
 
         # Create a StokesVector object.
@@ -419,7 +419,7 @@ class OWCrystalActive(widget.OWWidget):
                                                  float(INCLINATION_ANGLE) * np.pi / 180)
 
         # Create a MullerResult object.
-        print("CrystalActive: Calculating the Stokes vector...\n")
+        print("CrystalCalculator: Calculating the Stokes vector...\n")
         mueller_result = mueller_diffraction.calculate_stokes()
 
         # Create the data to output.
@@ -428,7 +428,7 @@ class OWCrystalActive(widget.OWWidget):
         # Dump data to file if requested.
         if DUMP_TO_FILE == 1:
 
-            print("CrystalActive: Writing data in {file}...\n".format(file=FILE_NAME))
+            print("CrystalCalculator: Writing data in {file}...\n".format(file=FILE_NAME))
 
             with open(FILE_NAME, "w") as file:
                 try:
@@ -495,14 +495,14 @@ class OWCrystalActive(widget.OWWidget):
                     file.close()
                     print("File written to disk: %s"%FILE_NAME)
                 except:
-                    raise Exception("CrystalActive: The data could not be dumped onto the specified file!")
+                    raise Exception("CrystalCalculator: The data could not be dumped onto the specified file!")
 
         return output_data
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    w = OWCrystalActive()
+    w = OWCrystalCalculator()
     w.show()
     app.exec()
     w.saveSettings()

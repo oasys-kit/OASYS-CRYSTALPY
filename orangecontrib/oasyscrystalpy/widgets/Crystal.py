@@ -14,16 +14,16 @@ from crystalpy.diffraction.GeometryType import BraggDiffraction, BraggTransmissi
 from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch
 
 
-class OWCrystalPassive(widget.OWWidget):
+class OWCrystal(widget.OWWidget):
     name = "Crystal"
-    id = "orange.widgets.dataCrystalPassive"
+    id = "orange.widgets.dataCrystal"
     description = "Application to compute..."
     icon = "icons/Crystal.png"
     author = "create_widget.py"
     maintainer_email = "cappelli@esrf.fr"
     priority = 25
     category = ""
-    keywords = ["oasyscrystalpy", "crystalpy", "CrystalPassive"]
+    keywords = ["oasyscrystalpy", "crystalpy", "Crystal"]
 
     # the widget takes in a collection of Photon objects and
     # sends out an object of the same type made up of scattered photons.
@@ -49,7 +49,7 @@ class OWCrystalPassive(widget.OWWidget):
     AZIMUTHAL_ANGLE = Setting(90.0)    # degrees
     INCLINATION_ANGLE = Setting(45.0)  # degrees
     DUMP_TO_FILE = Setting(1)          # Yes
-    FILE_NAME = Setting("crystal_passive.dat")
+    FILE_NAME = Setting("crystal.dat")
 
     def __init__(self):
         super().__init__()
@@ -161,7 +161,7 @@ class OWCrystalPassive(widget.OWWidget):
 
         self.process_showers()
 
-        print("CrystalPassive: Passive crystal initialized.\n")
+        print("Crystal: Crystal initialized.\n")
 
         gui.rubber(self.controlArea)
 
@@ -184,12 +184,12 @@ class OWCrystalPassive(widget.OWWidget):
     def compute(self):
 
         if not self._input_available:
-            raise Exception("CrystalPassive: Input data not available!\n")
+            raise Exception("Crystal: Input data not available!\n")
 
         # Translate CRYSTAL_TYPE (int) into a crystal name (string).
         CRYSTAL_NAME = self.crystal_names[self.CRYSTAL_NAME]
 
-        outgoing_bunch = OWCrystalPassive.calculate_external_CrystalPassive(GEOMETRY_TYPE=self.GEOMETRY_TYPE,
+        outgoing_bunch = OWCrystal.calculate_external_Crystal(GEOMETRY_TYPE=self.GEOMETRY_TYPE,
                                                                        CRYSTAL_NAME=CRYSTAL_NAME,
                                                                        THICKNESS=self.THICKNESS,
                                                                        MILLER_H=self.MILLER_H,
@@ -203,7 +203,7 @@ class OWCrystalPassive(widget.OWWidget):
                                                                        FILE_NAME=self.FILE_NAME)
 
         self.send("photon bunch", outgoing_bunch)
-        print("CrystalPassive: The results were sent to the viewer.\n")
+        print("Crystal: The results were sent to the viewer.\n")
 
     def defaults(self):
         self.resetSettings()
@@ -211,20 +211,20 @@ class OWCrystalPassive(widget.OWWidget):
         return
 
     def get_doc(self):
-        print("CrystalPassive: help pressed.\n")
+        print("Crystal: help pressed.\n")
         home_doc = resources.package_dirname("orangecontrib.oasyscrystalpy") + "/doc_files/"
         filename1 = os.path.join(home_doc, 'CrystalActive'+'.txt')
-        print("CrystalPassive: Opening file %s\n" % filename1)
+        print("Crystal: Opening file %s\n" % filename1)
         if sys.platform == 'darwin':
             command = "open -a TextEdit "+filename1+" &"
         elif sys.platform == 'linux':
             command = "gedit "+filename1+" &"
         else:
-            raise Exception("CrystalPassive: sys.platform did not yield an acceptable value!\n")
+            raise Exception("Crystal: sys.platform did not yield an acceptable value!\n")
         os.system(command)
 
     @staticmethod
-    def calculate_external_CrystalPassive(GEOMETRY_TYPE,
+    def calculate_external_Crystal(GEOMETRY_TYPE,
                                           CRYSTAL_NAME,
                                           THICKNESS,
                                           MILLER_H,
@@ -255,11 +255,11 @@ class OWCrystalPassive(widget.OWWidget):
             GEOMETRY_TYPE_OBJECT = LaueTransmission()
 
         else:
-            raise Exception("CrystalPassive: The geometry type could not be interpreted!\n")
+            raise Exception("Crystal: The geometry type could not be interpreted!\n")
 
         # Create a diffraction setup.
         # At this stage I translate angles in radians, energy in eV and all other values in SI units.
-        print("CrystalPassive: Creating a diffraction setup...\n")
+        print("Crystal: Creating a diffraction setup...\n")
 
         diffraction_setup = DiffractionSetup(geometry_type=GEOMETRY_TYPE_OBJECT,  # GeometryType object
                                              crystal_name=str(CRYSTAL_NAME),  # string
@@ -275,17 +275,17 @@ class OWCrystalPassive(widget.OWWidget):
         diffraction = Diffraction()
 
         # Create a PolarizedPhotonBunch object holding the results of the diffraction calculations.
-        print("CrystalPassive: Calculating the outgoing photons...\n")
+        print("Crystal: Calculating the outgoing photons...\n")
         outgoing_bunch = diffraction.calculateDiffractedPhotonBunch(diffraction_setup, INCLINATION_ANGLE)
 
         # Check that the result of the calculation is indeed a PhotonBunch object.
         if not isinstance(outgoing_bunch, PolarizedPhotonBunch):
-            raise Exception("CrystalPassive: Expected PolarizedPhotonBunch as a result, found {}!\n".format(type(outgoing_bunch)))
+            raise Exception("Crystal: Expected PolarizedPhotonBunch as a result, found {}!\n".format(type(outgoing_bunch)))
 
         # Dump data to file if requested.
         if DUMP_TO_FILE == 0:
 
-            print("CrystalPassive: Writing data in {file}...\n".format(file=FILE_NAME))
+            print("Crystal: Writing data in {file}...\n".format(file=FILE_NAME))
 
             with open(FILE_NAME, "w") as file:
                 try:
@@ -296,14 +296,14 @@ class OWCrystalPassive(widget.OWWidget):
                     file.close()
                     print("File written to disk: %s"%FILE_NAME)
                 except:
-                    raise Exception("CrystalPassive: The data could not be dumped onto the specified file!\n")
+                    raise Exception("Crystal: The data could not be dumped onto the specified file!\n")
 
         return outgoing_bunch
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    w = OWCrystalPassive()
+    w = OWCrystal()
     w.show()
     app.exec()
     w.saveSettings()

@@ -24,7 +24,7 @@ class OWPhotonViewer(widget.OWWidget):
     name = "PhotonViewer"
     id = "orange.widgets.data.widget_name"
     description = ""
-    icon = "icons/CrystalViewer.png"
+    icon = "icons/PhotonViewer.png"
     author = ""
     maintainer_email = "cappelli@esrf.fr"
     priority = 40
@@ -45,12 +45,15 @@ class OWPhotonViewer(widget.OWWidget):
 
         self.figure_canvas = None
 
-        box0 = gui.widgetBox(self.controlArea, " ", orientation="horizontal")
-
         print("PhotonViewer: Photon viewer initialized.\n")
-        # widget buttons: plot, help
-        gui.button(box0, self, "Plot", callback=self.do_plot)
-        gui.button(box0, self, "Help", callback=self.get_doc)
+
+        # box0 = gui.widgetBox(self.controlArea, " ", orientation="horizontal")
+        # # box0 = gui.widgetBox(self.controlArea, " ", orientation="vertical")
+        #
+
+        # # widget buttons: plot, help
+        # gui.button(box0, self, "Plot", callback=self.do_plot)
+        # gui.button(box0, self, "Help", callback=self.get_doc)
 
         box1 = gui.widgetBox(self.controlArea, " ", orientation="vertical")
 
@@ -237,15 +240,31 @@ class OWPhotonViewer(widget.OWWidget):
         os.system(command)
 
 if __name__ == '__main__':
+
+    from crystalpy.util.Vector import Vector
+    from crystalpy.util.StokesVector import StokesVector
+    from crystalpy.util.PolarizedPhotonBunch import PolarizedPhoton
+    from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch
+
     app = QtGui.QApplication([])
     ow = OWPhotonViewer()
 
-    # TODO: write an example for the new widget.
-    # a = np.array([
-    #     [8.47091837e+04,  8.57285714e+04,   8.67479592e+04, 8.77673469e+04],
-    #     [1.1i6210756e+12,  1.10833975e+12,   1.05700892e+12, 1.00800805e+12]
-    #     ])
-    # ow.do_plot(a)
-    # ow.show()
-    # app.exec_()
-    # ow.saveSettings()
+    nphotons = 10
+
+    from crystalpy.util.Vector import Vector
+    from crystalpy.util.StokesVector import StokesVector
+
+    bunch = PolarizedPhotonBunch([])
+    for i in range(nphotons):
+        polarized_photon = PolarizedPhoton(energy_in_ev=1000.0+i,
+                                           direction_vector=Vector(0,1.0,0),
+                                           stokes_vector=StokesVector([1.0,0,1.0,0]))
+        bunch.add(polarized_photon)
+
+
+    ow._set_input(bunch)
+    ow.do_plot()
+    ow.show()
+
+    app.exec_()
+    ow.saveSettings()

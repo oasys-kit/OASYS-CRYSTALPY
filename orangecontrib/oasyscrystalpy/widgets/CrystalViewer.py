@@ -13,7 +13,7 @@ from orangecontrib.oasyscrystalpy.util.MailingBox import MailingBox
 
 
 class OWCrystalViewer(widget.OWWidget):
-    name = "CrystalViewer"
+    name = "Crystal Calculator Viewer"
     id = "orange.widgets.data.widget_name"
     description = ""
     icon = "icons/CrystalViewer.png"
@@ -45,7 +45,7 @@ class OWCrystalViewer(widget.OWWidget):
         gui.button(box0, self, "Intensity & phase", callback=self._set_intensity_phase_plot)
         gui.button(box0, self, "Stokes parameters", callback=self._set_stokes_plot)
         gui.button(box0, self, "Circular polarization", callback=self._set_polarization_degree_plot)
-        gui.button(box0, self, "Help", callback=self.get_doc)
+        # gui.button(box0, self, "Help", callback=self.get_doc)
         # self.process_showers()
 
     def _set_results(self, results):
@@ -55,6 +55,7 @@ class OWCrystalViewer(widget.OWWidget):
             # Retrieve the results from input data.
             self.diffraction_result = results.diffraction_result
             self.mueller_result = results.mueller_result
+            self.do_plot()
 
     def _init_plot_type(self):
         self.plot_type = {
