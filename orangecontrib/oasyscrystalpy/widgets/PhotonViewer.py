@@ -259,7 +259,7 @@ if __name__ == '__main__':
         polarized_photon = PolarizedPhoton(energy_in_ev=1000.0+i,
                                            direction_vector=Vector(0,1.0,0),
                                            stokes_vector=StokesVector([1.0,0,1.0,0]))
-        bunch.add(polarized_photon)
+        bunch.addPhoton(polarized_photon)
 
 
     ow._set_input(bunch)

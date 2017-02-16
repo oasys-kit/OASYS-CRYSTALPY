@@ -278,7 +278,7 @@ class OWCrystal(widget.OWWidget):
         print("Crystal: Calculating the outgoing photons...\n")
         outgoing_bunch = diffraction.calculateDiffractedPhotonBunch(diffraction_setup, INCLINATION_ANGLE)
 
-        # Check that the result of the calculation is indeed a PhotonBunch object.
+        # Check that the result of the calculation is indeed a PolarizedPhotonBunch object.
         if not isinstance(outgoing_bunch, PolarizedPhotonBunch):
             raise Exception("Crystal: Expected PolarizedPhotonBunch as a result, found {}!\n".format(type(outgoing_bunch)))
 

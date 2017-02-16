@@ -223,12 +223,10 @@ class ShadowConverter(widget.OWWidget):
 
 
 if __name__ == "__main__":
-    # a = QtGui.QApplication(sys.argv)
-    # ow = ShadowConverter()
-    # ow.show()
-    # a.exec_()
-    # ow.saveSettings()
-
-    pass
+    a = QtGui.QApplication(sys.argv)
+    ow = ShadowConverter()
+    ow.show()
+    a.exec_()
+    ow.saveSettings()
 
 
