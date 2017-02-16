@@ -268,15 +268,17 @@ class OWCrystal(widget.OWWidget):
                                              miller_k=int(MILLER_K),  # int
                                              miller_l=int(MILLER_L),  # int
                                              asymmetry_angle=float(ASYMMETRY_ANGLE) / 180 * np.pi,  # radians
-                                             azimuthal_angle=float(AZIMUTHAL_ANGLE) / 180 * np.pi,  # radians
-                                             incoming_photons=incoming_bunch)
+                                             azimuthal_angle=float(AZIMUTHAL_ANGLE) / 180 * np.pi)  # radians
+                                             # incoming_photons=incoming_bunch)
 
         # Create a Diffraction object.
         diffraction = Diffraction()
 
         # Create a PolarizedPhotonBunch object holding the results of the diffraction calculations.
         print("Crystal: Calculating the outgoing photons...\n")
-        outgoing_bunch = diffraction.calculateDiffractedPhotonBunch(diffraction_setup, INCLINATION_ANGLE)
+        outgoing_bunch = diffraction.calculateDiffractedPolarizedPhotonBunch(diffraction_setup,
+                                                                    incoming_bunch,
+                                                                    INCLINATION_ANGLE)
 
         # Check that the result of the calculation is indeed a PolarizedPhotonBunch object.
         if not isinstance(outgoing_bunch, PolarizedPhotonBunch):
