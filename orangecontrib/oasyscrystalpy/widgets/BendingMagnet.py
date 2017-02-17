@@ -17,7 +17,8 @@ import orangecanvas.resources as resources
 # Project libraries.
 from crystalpy.util.StokesVector import StokesVector
 from crystalpy.util.Vector import Vector
-from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch, PolarizedPhoton
+from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch
+from crystalpy.util.PolarizedPhoton import PolarizedPhoton
 
 #############################################################################################
 # srxraylib is a Python library by Manuel Sanchez del Rio (srio@esrf.fr)                    #

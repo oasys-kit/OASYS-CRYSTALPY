@@ -254,7 +254,7 @@ class OWCrystalViewer(widget.OWWidget):
             phase_string = "Phase in rad"
 
         # Retrieve setup information.
-        info_dict = result.diffractionSetup().asInfoDictionary()
+        info_dict = result.diffractionSetup().toDictionary()
         info_dict["Bragg angle"] = str(result.braggAngle())
 
         # Retrieve angles of the results.
@@ -324,7 +324,7 @@ class OWCrystalViewer(widget.OWWidget):
         Returns this result instance in PlotData1D representation.
         """
         # Retrieve setup information.
-        info_dict = result.diffraction_setup.asInfoDictionary()
+        info_dict = result.diffraction_setup.toDictionary()
         info_dict["Bragg angle"] = str(result.diffraction_result.braggAngle())
 
         # Retrieve angles of the results.

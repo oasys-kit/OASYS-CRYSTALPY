@@ -10,8 +10,7 @@ from oasys.widgets import widget
 import orangecanvas.resources as resources
 
 from crystalpy.util.Vector import Vector
-from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch, PolarizedPhoton
-
+from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch
 
 class OWAlignmentTool(widget.OWWidget):
     name = "AlignmentTool"

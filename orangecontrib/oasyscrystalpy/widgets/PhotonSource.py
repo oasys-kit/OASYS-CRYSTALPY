@@ -10,7 +10,8 @@ import orangecanvas.resources as resources
 
 from crystalpy.util.StokesVector import StokesVector
 from crystalpy.util.Vector import Vector
-from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch, PolarizedPhoton
+from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch
+from crystalpy.util.PolarizedPhoton import PolarizedPhoton
 
 
 class OWPhotonSource(widget.OWWidget):
