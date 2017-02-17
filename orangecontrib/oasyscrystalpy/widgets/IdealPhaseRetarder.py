@@ -147,10 +147,10 @@ class OWIdealPhaseRetarder(widget.OWWidget):
 
             photon_bunch_out = PolarizedPhotonBunch()
 
-            for index in range(len(photon_bunch)):
-                polarized_photon = photon_bunch.get_photon_index(index).duplicate()
+            for index in range(photon_bunch.getNumberOfPhotons()):
+                polarized_photon = photon_bunch.getPhotonIndex(index).duplicate()
                 polarized_photon.applyMuellerMatrix(mm)
-                photon_bunch_out.add(polarized_photon)
+                photon_bunch_out.addPhoton(polarized_photon)
 
 
             # Dump data to file if requested.
@@ -164,7 +164,7 @@ class OWIdealPhaseRetarder(widget.OWWidget):
                                    "#N 9\n"
                                    "#L  Energy [eV]  Vx  Vy  Vz  S0  S1  S2  S3  circular polarization\n")
 
-                        tmp = photon_bunch_out.to_string()
+                        tmp = photon_bunch_out.toString()
                         file.write(tmp)
                         file.close()
                         print("File written to disk: %s"%self.FILE_NAME)

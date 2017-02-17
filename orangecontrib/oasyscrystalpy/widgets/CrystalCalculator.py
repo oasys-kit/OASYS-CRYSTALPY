@@ -480,7 +480,7 @@ class OWCrystalCalculator(widget.OWWidget):
                                         angle_deviation_min=ANGLE_DEVIATION_MIN,
                                         angle_deviation_max=ANGLE_DEVIATION_MAX,
                                         inclination_angle=INCLINATION_ANGLE,
-                                        incoming_stokes_vector=incoming_stokes_vector.get_array(numpy=False),
+                                        incoming_stokes_vector=incoming_stokes_vector.components(),
                                         s_intensity=diffraction_result.sIntensityByEnergy(ENERGY_MIN),
                                         s_phase=diffraction_result.sPhaseByEnergy(ENERGY_MIN, deg=True),
                                         p_intensity=diffraction_result.pIntensityByEnergy(ENERGY_MIN),

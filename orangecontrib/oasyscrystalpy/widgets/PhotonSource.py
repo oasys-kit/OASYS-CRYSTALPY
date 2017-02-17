@@ -10,7 +10,8 @@ import orangecanvas.resources as resources
 
 from crystalpy.util.StokesVector import StokesVector
 from crystalpy.util.Vector import Vector
-from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch, PolarizedPhoton
+from crystalpy.util.PolarizedPhotonBunch import PolarizedPhotonBunch
+from crystalpy.util.PolarizedPhoton import PolarizedPhoton
 
 
 class OWPhotonSource(widget.OWWidget):
@@ -246,7 +247,7 @@ class OWPhotonSource(widget.OWWidget):
                     file.write("#S 1 photon bunch\n"
                                "#N 9\n"
                                "#L  Energy [eV]  Vx  Vy  Vz  S0  S1  S2  S3  CircularPolarizationDregree\n")
-                    file.write(photon_bunch.to_string())
+                    file.write(photon_bunch.toString())
                     file.close()
                     print("File written to disk: %s \n"%self.FILE_NAME)
                 except:

@@ -120,11 +120,11 @@ class ShadowConverter(widget.OWWidget):
                                      direction_vector=Vector(vx[i],vy[i],vz[i]),
                                      stokes_vector=StokesVector([s0[i],s1[i],s2[i],s3[i]]))
             #photon_bunch.add(photon)
-            print("<><> appending photon",i)
+            # print("<><> appending photon",i)
             photons_list.append(photon)
 
 
-        photon_bunch.add(photons_list)
+        photon_bunch.addPhotonsFromList(photons_list)
 
         return photon_bunch
 
@@ -149,15 +149,15 @@ class ShadowConverter(widget.OWWidget):
 
         photon_beam = self.incoming_bunch
 
-        N =        photon_beam.get_array("number of photons")
-        energies = photon_beam.get_array("energies")
-        S0 =       photon_beam.get_array("s0")
-        S1 =       photon_beam.get_array("s1")
-        S2 =       photon_beam.get_array("s2")
-        S3 =       photon_beam.get_array("s3")
-        vx =       photon_beam.get_array("vx")
-        vy =       photon_beam.get_array("vy")
-        vz =       photon_beam.get_array("vz")
+        N =        photon_beam.getArrayByKey("number of photons")
+        energies = photon_beam.getArrayByKey("energies")
+        S0 =       photon_beam.getArrayByKey("s0")
+        S1 =       photon_beam.getArrayByKey("s1")
+        S2 =       photon_beam.getArrayByKey("s2")
+        S3 =       photon_beam.getArrayByKey("s3")
+        vx =       photon_beam.getArrayByKey("vx")
+        vy =       photon_beam.getArrayByKey("vy")
+        vz =       photon_beam.getArrayByKey("vz")
 
         beam = Shadow.Beam(N)
         A2EV = 2.0 *  numpy.pi / (codata.h*codata.c/codata.e*1e2)
@@ -223,12 +223,10 @@ class ShadowConverter(widget.OWWidget):
 
 
 if __name__ == "__main__":
-    # a = QtGui.QApplication(sys.argv)
-    # ow = ShadowConverter()
-    # ow.show()
-    # a.exec_()
-    # ow.saveSettings()
-
-    pass
+    a = QtGui.QApplication(sys.argv)
+    ow = ShadowConverter()
+    ow.show()
+    a.exec_()
+    ow.saveSettings()
 
 

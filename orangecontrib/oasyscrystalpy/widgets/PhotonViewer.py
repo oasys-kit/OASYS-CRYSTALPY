@@ -70,15 +70,15 @@ class OWPhotonViewer(widget.OWWidget):
 
             # Retrieve the results from input data.
             self.photon_bunch = photon_bunch
-            self.bunch_size = photon_bunch.get_array("number of photons")  # int
-            self.energies = photon_bunch.get_array("energies")  # eV
-            self.deviations = photon_bunch.get_array("deviations")  # urad
+            self.bunch_size = photon_bunch.getArrayByKey("number of photons")  # int
+            self.energies = photon_bunch.getArrayByKey("energies")  # eV
+            self.deviations = photon_bunch.getArrayByKey("deviations")  # urad
             self.deviations *= 1e+6
-            self.stokes_vectors = [photon_bunch.get_array("s0"),
-                                   photon_bunch.get_array("s1"),
-                                   photon_bunch.get_array("s2"),
-                                   photon_bunch.get_array("s3")]
-            self.polarization_degrees = photon_bunch.get_array("polarization degree")
+            self.stokes_vectors = [photon_bunch.getArrayByKey("s0"),
+                                   photon_bunch.getArrayByKey("s1"),
+                                   photon_bunch.getArrayByKey("s2"),
+                                   photon_bunch.getArrayByKey("s3")]
+            self.polarization_degrees = photon_bunch.getArrayByKey("polarization degree")
 
             self.do_plot()
 
@@ -151,8 +151,8 @@ class OWPhotonViewer(widget.OWWidget):
             #
             # Deal with the special cases, where the plotting is straightforward.
             #
-            if self.photon_bunch.is_monochromatic(places=6) or \
-                    self.photon_bunch.is_unidirectional():  # unidirectional or monochromatic.
+            if self.photon_bunch.isMonochromatic(places=6) or \
+                    self.photon_bunch.isUnidirectional():  # unidirectional or monochromatic.
 
                 self.plot(x_values, y_values_array, x_label=x_label, titles=titles)
 
@@ -176,8 +176,8 @@ class OWPhotonViewer(widget.OWWidget):
 
                     energy = self.photon_bunch[0].energy()
 
-                    for polarized_photon in self.photon_bunch:
-
+                    for i in range(self.photon_bunch.getNumberOfPhotons()):
+                        polarized_photon = self.photon_bunch.getPhotonIndex(i)
                         if polarized_photon.energy() == energy:  # Iterate over a monochromatic portion.
                             x_values = np.append(x_values, np.multiply(polarized_photon.deviation(), 1e+6))
                             polarization_degrees = np.append(polarization_degrees,
@@ -259,7 +259,7 @@ if __name__ == '__main__':
         polarized_photon = PolarizedPhoton(energy_in_ev=1000.0+i,
                                            direction_vector=Vector(0,1.0,0),
                                            stokes_vector=StokesVector([1.0,0,1.0,0]))
-        bunch.add(polarized_photon)
+        bunch.addPhoton(polarized_photon)
 
 
     ow._set_input(bunch)
