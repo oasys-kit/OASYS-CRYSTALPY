@@ -33,12 +33,12 @@ class OWAlignmentTool(widget.OWWidget):
 
     want_main_area = False
 
-    BASE_ENERGY = Setting(8000)  # eV
+    BASE_ENERGY = Setting(8000.0)  # eV
     CRYSTAL_NAME = Setting(0)  # Si
     MILLER_H = Setting(1)  # int
     MILLER_K = Setting(1)  # int
     MILLER_L = Setting(1)  # int
-    ALPHA_X = Setting(0)  # degrees
+    ALPHA_X = Setting(0.0)  # degrees
     MOA = Setting(0)  # 180 - > (+) position
     MODE = Setting(0)  # lab-to-crystal
     DUMP_TO_FILE = Setting(1)  # Yes
@@ -70,7 +70,7 @@ class OWAlignmentTool(widget.OWWidget):
         box1 = gui.widgetBox(box)
         gui.lineEdit(box1, self, "BASE_ENERGY",
                      label=self.unitLabels()[idx], addSpace=True,
-                     valueType=int, validator=QIntValidator())
+                     valueType=float, validator=QDoubleValidator())
         self.show_at(self.unitFlags()[idx], box1)
 
         # widget index 1
@@ -87,7 +87,7 @@ class OWAlignmentTool(widget.OWWidget):
         box1 = gui.widgetBox(box)
         gui.lineEdit(box1, self, "MILLER_H",
                      label=self.unitLabels()[idx], addSpace=True,
-                     valueType=float, validator=QIntValidator())
+                     valueType=int, validator=QIntValidator())
         self.show_at(self.unitFlags()[idx], box1)
 
         # widget index 3
@@ -95,7 +95,7 @@ class OWAlignmentTool(widget.OWWidget):
         box1 = gui.widgetBox(box)
         gui.lineEdit(box1, self, "MILLER_K",
                      label=self.unitLabels()[idx], addSpace=True,
-                     valueType=float, validator=QIntValidator())
+                     valueType=int, validator=QIntValidator())
         self.show_at(self.unitFlags()[idx], box1)
 
         # widget index 4
@@ -103,7 +103,7 @@ class OWAlignmentTool(widget.OWWidget):
         box1 = gui.widgetBox(box)
         gui.lineEdit(box1, self, "MILLER_L",
                      label=self.unitLabels()[idx], addSpace=True,
-                     valueType=float, validator=QIntValidator())
+                     valueType=int, validator=QIntValidator())
         self.show_at(self.unitFlags()[idx], box1)
 
         # widget index 5
@@ -111,7 +111,7 @@ class OWAlignmentTool(widget.OWWidget):
         box1 = gui.widgetBox(box)
         gui.lineEdit(box1, self, "ALPHA_X",
                      label=self.unitLabels()[idx], addSpace=True,
-                     valueType=float, validator=QIntValidator())
+                     valueType=float, validator=QDoubleValidator())
         self.show_at(self.unitFlags()[idx], box1)
 
         # widget index 6
@@ -163,7 +163,7 @@ class OWAlignmentTool(widget.OWWidget):
 
     def unitLabels(self):
         return ["Base energy [eV]", "Crystal name", "Miller H", "Miller K", "Miller L",
-                "Asymmetry angle", "Mirror orientation angle", "Mode",
+                "Asymmetry angle [deg]", "Mirror orientation angle [deg] -not implemented-", "Mode",
                 "Dump to file", "File name"]
 
     def unitFlags(self):
@@ -196,11 +196,11 @@ class OWAlignmentTool(widget.OWWidget):
 
             if self.MODE == 0:  # ray-to-crystal
                 rotated_vector = polarized_photon.unitDirectionVector().\
-                    rotateAroundAxis(neg_x_axis, angle_bragg + self.ALPHA_X)
+                    rotateAroundAxis(neg_x_axis, angle_bragg + self.ALPHA_X*np.pi/180)
 
             elif self.MODE == 1:  # crystal-to-ray
                 rotated_vector = polarized_photon.unitDirectionVector(). \
-                    rotateAroundAxis(neg_x_axis, angle_bragg - self.ALPHA_X)
+                    rotateAroundAxis(neg_x_axis, angle_bragg - self.ALPHA_X*np.pi/180)
 
             else:
                 raise Exception("AlignmentTool: The alignment mode could not be interpreted correctly!\n")
