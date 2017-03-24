@@ -68,7 +68,8 @@ PACKAGES = find_packages(
                          exclude=('*.tests', '*.tests.*', 'tests.*', 'tests'),
                          )
 
-PACKAGE_DATA = {"orangecontrib.oasyscrystalpy.widgets": ["icons/*.png", "icons/*.jpg"]}
+PACKAGE_DATA = {"orangecontrib.oasyscrystalpy.widgets.elements": ["icons/*.png", "icons/*.jpg"],
+            }
 
 
 NAMESPACE_PACKAGES = ["orangecontrib","orangecontrib.oasyscrystalpy", "orangecontrib.oasyscrystalpy.widgets"]
@@ -77,7 +78,7 @@ NAMESPACE_PACKAGES = ["orangecontrib","orangecontrib.oasyscrystalpy", "orangecon
 ENTRY_POINTS = {
     'oasys.addons': ("CrystalPy = orangecontrib.oasyscrystalpy", ),
     'oasys.widgets': (
-        "CrystalPy = orangecontrib.oasyscrystalpy.widgets",
+        "CrystalPy = orangecontrib.oasyscrystalpy.widgets.elements",
     ),
 }
 

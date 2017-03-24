@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<scheme description="polarization test" title="polarization" version="2.0" working_directory="/Users/srio/Oasys/OasysRun" workspace_units="1">
+	<nodes>
+		<node id="0" name="PhotonSource" position="(77.0, 337.0)" project_name="oasyscrystalpy"
+qualified_name="orangecontrib.oasyscrystalpy.widgets.elements.PhotonSource.OWPhotonSource" title="PhotonSource" version="" />
+		<node id="1" name="PhotonViewer" position="(263.0, 287.0)" project_name="oasyscrystalpy"
+qualified_name="orangecontrib.oasyscrystalpy.widgets.elements.PhotonViewer.OWPhotonViewer" title="PhotonViewer" version="" />
+		<node id="2" name="IdealLinearPolarizer" position="(221.0, 397.0)"
+project_name="oasyscrystalpy" qualified_name="orangecontrib.oasyscrystalpy.widgets.elements.IdealLinearPolarizer.OWIdealLinearPolarizer" title="IdealLinearPolarizer" version="" />
+		<node id="3" name="PhotonViewer" position="(403.0, 397.0)" project_name="oasyscrystalpy"
+qualified_name="orangecontrib.oasyscrystalpy.widgets.elements.PhotonViewer.OWPhotonViewer" title="PhotonViewer (1)" version="" />
+	</nodes>
+	<links>
+		<link enabled="true" id="0" sink_channel="photon bunch" sink_node_id="1" source_channel="photon bunch" source_node_id="0" />
+		<link enabled="true" id="1" sink_channel="photon bunch" sink_node_id="2" source_channel="photon bunch" source_node_id="0" />
+		<link enabled="true" id="2" sink_channel="photon bunch" sink_node_id="3" source_channel="photon bunch" source_node_id="2" />
+	</links>
+	<annotations />
+	<thumbnail />
+	<node_properties>
+		<properties format="pickle" node_id="0">gAN9cQAoWBMAAABBTkdMRV9ERVZJQVRJT05fTUlOcQFKnP///1gMAAAARFVNUF9UT19GSUxFcQJL
+AVgNAAAARU5FUkdZX1BPSU5UU3EDSwFYDwAAAEFOR0xFX0RFVklBVElPTnEESwBYCQAAAFNUT0tF
+U19TMXEFRwAAAAAAAAAAWBYAAABBTkdMRV9ERVZJQVRJT05fUE9JTlRTcQZLyFgKAAAARU5FUkdZ
+X01BWHEHTUAfWAkAAABTVE9LRVNfUzNxCEcAAAAAAAAAAFgJAAAAU1RPS0VTX1MwcQlHP/AAAAAA
+AABYCgAAAEVORVJHWV9NSU5xCk1AH1gJAAAARklMRV9OQU1FcQtYEQAAAHBob3Rvbl9zb3VyY2Uu
+ZGF0cQxYEwAAAHNhdmVkV2lkZ2V0R2VvbWV0cnlxDWNzaXAKX3VucGlja2xlX3R5cGUKcQ5YDAAA
+AFB5UXQ0LlF0Q29yZXEPWAoAAABRQnl0ZUFycmF5cRBDLgHZ0MsAAQAAAAAB0AAAANEAAAO7AAAC
+UgAAAdAAAADnAAADuwAAAlIAAAAAAABxEYVxEodxE1JxFFgTAAAAQU5HTEVfREVWSUFUSU9OX01B
+WHEVS2RYCQAAAFNUT0tFU19TMnEWRz/wAAAAAAAAWAYAAABFTkVSR1lxF01AH3Uu
+</properties>
+		<properties format="pickle" node_id="1">gAN9cQAoWAkAAABQTE9UX1RZUEVxAUsAWBMAAABzYXZlZFdpZGdldEdlb21ldHJ5cQJjc2lwCl91
+bnBpY2tsZV90eXBlCnEDWAwAAABQeVF0NC5RdENvcmVxBFgKAAAAUUJ5dGVBcnJheXEFQy4B2dDL
+AAEAAAAAAOYAAACRAAAEpQAAApIAAADmAAAApwAABKUAAAKSAAAAAAAAcQaFcQeHcQhScQl1Lg==
+</properties>
+		<properties format="pickle" node_id="2">gAN9cQAoWAUAAABUSEVUQXEBRwAAAAAAAAAAWAQAAABUWVBFcQJLAVgTAAAAc2F2ZWRXaWRnZXRH
+ZW9tZXRyeXEDY3NpcApfdW5waWNrbGVfdHlwZQpxBFgMAAAAUHlRdDQuUXRDb3JlcQVYCgAAAFFC
+eXRlQXJyYXlxBkMuAdnQywABAAAAAAHQAAABFAAAA7sAAAIQAAAB0AAAASoAAAO7AAACEAAAAAAA
+AHEHhXEIh3EJUnEKdS4=
+</properties>
+		<properties format="pickle" node_id="3">gAN9cQAoWAkAAABQTE9UX1RZUEVxAUsAWBMAAABzYXZlZFdpZGdldEdlb21ldHJ5cQJjc2lwCl91
+bnBpY2tsZV90eXBlCnEDWAwAAABQeVF0NC5RdENvcmVxBFgKAAAAUUJ5dGVBcnJheXEFQy4B2dDL
+AAEAAAAAAOYAAACRAAAEpQAAApIAAADmAAAApwAABKUAAAKSAAAAAAAAcQaFcQeHcQhScQl1Lg==
+</properties>
+	</node_properties>
+</scheme>
