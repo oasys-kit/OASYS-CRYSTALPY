@@ -1,3 +1,0 @@
-orangecontrib
-orangecontrib.oasyscrystalpy
-orangecontrib.oasyscrystalpy.widgets
