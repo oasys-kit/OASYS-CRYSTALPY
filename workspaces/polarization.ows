@@ -1,14 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<scheme description="polarization test" title="polarization" version="2.0" working_directory="/Users/srio/Oasys/OasysRun" workspace_units="1">
+<scheme description="polarization test" title="polarization" version="2.0" working_directory="/users/srio/Oasys" workspace_units="0">
 	<nodes>
-		<node id="0" name="PhotonSource" position="(77.0, 337.0)" project_name="oasyscrystalpy"
-qualified_name="orangecontrib.oasyscrystalpy.widgets.elements.PhotonSource.OWPhotonSource" title="PhotonSource" version="" />
-		<node id="1" name="PhotonViewer" position="(263.0, 287.0)" project_name="oasyscrystalpy"
-qualified_name="orangecontrib.oasyscrystalpy.widgets.elements.PhotonViewer.OWPhotonViewer" title="PhotonViewer" version="" />
-		<node id="2" name="IdealLinearPolarizer" position="(221.0, 397.0)"
-project_name="oasyscrystalpy" qualified_name="orangecontrib.oasyscrystalpy.widgets.elements.IdealLinearPolarizer.OWIdealLinearPolarizer" title="IdealLinearPolarizer" version="" />
-		<node id="3" name="PhotonViewer" position="(403.0, 397.0)" project_name="oasyscrystalpy"
-qualified_name="orangecontrib.oasyscrystalpy.widgets.elements.PhotonViewer.OWPhotonViewer" title="PhotonViewer (1)" version="" />
+		<node id="0" name="PhotonSource" position="(77.0, 337.0)" project_name="OASYS1-CRYSTALPY" qualified_name="orangecontrib.crystalpy.widgets.elements.PhotonSource.OWPhotonSource" title="PhotonSource" version="" />
+		<node id="1" name="PhotonViewer" position="(264.0, 287.0)" project_name="OASYS1-CRYSTALPY" qualified_name="orangecontrib.crystalpy.widgets.elements.PhotonViewer.OWPhotonViewer" title="PhotonViewer" version="" />
+		<node id="2" name="IdealLinearPolarizer" position="(221.0, 397.0)" project_name="OASYS1-CRYSTALPY" qualified_name="orangecontrib.crystalpy.widgets.elements.IdealLinearPolarizer.OWIdealLinearPolarizer" title="IdealLinearPolarizer" version="" />
+		<node id="3" name="PhotonViewer" position="(403.0, 397.0)" project_name="OASYS1-CRYSTALPY" qualified_name="orangecontrib.crystalpy.widgets.elements.PhotonViewer.OWPhotonViewer" title="PhotonViewer (1)" version="" />
 	</nodes>
 	<links>
 		<link enabled="true" id="0" sink_channel="photon bunch" sink_node_id="1" source_channel="photon bunch" source_node_id="0" />
@@ -18,28 +14,32 @@ qualified_name="orangecontrib.oasyscrystalpy.widgets.elements.PhotonViewer.OWPho
 	<annotations />
 	<thumbnail />
 	<node_properties>
-		<properties format="pickle" node_id="0">gAN9cQAoWBMAAABBTkdMRV9ERVZJQVRJT05fTUlOcQFKnP///1gMAAAARFVNUF9UT19GSUxFcQJL
-AVgNAAAARU5FUkdZX1BPSU5UU3EDSwFYDwAAAEFOR0xFX0RFVklBVElPTnEESwBYCQAAAFNUT0tF
-U19TMXEFRwAAAAAAAAAAWBYAAABBTkdMRV9ERVZJQVRJT05fUE9JTlRTcQZLyFgKAAAARU5FUkdZ
-X01BWHEHTUAfWAkAAABTVE9LRVNfUzNxCEcAAAAAAAAAAFgJAAAAU1RPS0VTX1MwcQlHP/AAAAAA
-AABYCgAAAEVORVJHWV9NSU5xCk1AH1gJAAAARklMRV9OQU1FcQtYEQAAAHBob3Rvbl9zb3VyY2Uu
-ZGF0cQxYEwAAAHNhdmVkV2lkZ2V0R2VvbWV0cnlxDWNzaXAKX3VucGlja2xlX3R5cGUKcQ5YDAAA
-AFB5UXQ0LlF0Q29yZXEPWAoAAABRQnl0ZUFycmF5cRBDLgHZ0MsAAQAAAAAB0AAAANEAAAO7AAAC
-UgAAAdAAAADnAAADuwAAAlIAAAAAAABxEYVxEodxE1JxFFgTAAAAQU5HTEVfREVWSUFUSU9OX01B
-WHEVS2RYCQAAAFNUT0tFU19TMnEWRz/wAAAAAAAAWAYAAABFTkVSR1lxF01AH3Uu
+		<properties format="pickle" node_id="0">gAN9cQAoWA8AAABBTkdMRV9ERVZJQVRJT05xAUsAWBMAAABBTkdMRV9ERVZJQVRJT05fTUFYcQJL
+ZFgTAAAAQU5HTEVfREVWSUFUSU9OX01JTnEDSpz///9YFgAAAEFOR0xFX0RFVklBVElPTl9QT0lO
+VFNxBEvIWAwAAABEVU1QX1RPX0ZJTEVxBUsBWAYAAABFTkVSR1lxBk1AH1gKAAAARU5FUkdZX01B
+WHEHTUAfWAoAAABFTkVSR1lfTUlOcQhNQB9YDQAAAEVORVJHWV9QT0lOVFNxCUsBWAkAAABGSUxF
+X05BTUVxClgRAAAAcGhvdG9uX3NvdXJjZS5kYXRxC1gJAAAAU1RPS0VTX1MwcQxHP/AAAAAAAABY
+CQAAAFNUT0tFU19TMXENRwAAAAAAAAAAWAkAAABTVE9LRVNfUzJxDkc/8AAAAAAAAFgJAAAAU1RP
+S0VTX1MzcQ9HAAAAAAAAAABYEwAAAHNhdmVkV2lkZ2V0R2VvbWV0cnlxEGNzaXAKX3VucGlja2xl
+X3R5cGUKcRFYDAAAAFB5UXQ1LlF0Q29yZXESWAoAAABRQnl0ZUFycmF5cRNDQgHZ0MsAAwAAAAAB
+0AAAAMkAAASGAAADxgAAAdAAAADnAAAEhgAAA8YAAAAAAAAAAAaQAAAB0AAAAOcAAASGAAADxnEU
+hXEVh3EWUnEXdS4=
 </properties>
 		<properties format="pickle" node_id="1">gAN9cQAoWAkAAABQTE9UX1RZUEVxAUsAWBMAAABzYXZlZFdpZGdldEdlb21ldHJ5cQJjc2lwCl91
-bnBpY2tsZV90eXBlCnEDWAwAAABQeVF0NC5RdENvcmVxBFgKAAAAUUJ5dGVBcnJheXEFQy4B2dDL
-AAEAAAAAAOYAAACRAAAEpQAAApIAAADmAAAApwAABKUAAAKSAAAAAAAAcQaFcQeHcQhScQl1Lg==
+bnBpY2tsZV90eXBlCnEDWAwAAABQeVF0NS5RdENvcmVxBFgKAAAAUUJ5dGVBcnJheXEFQ0IB2dDL
+AAMAAAAAAjkAAAHdAAAF+AAAA+YAAAI5AAAB+wAABfgAAAPmAAAAAAAAAAAGkAAAAjkAAAH7AAAF
++AAAA+ZxBoVxB4dxCFJxCXUu
 </properties>
-		<properties format="pickle" node_id="2">gAN9cQAoWAUAAABUSEVUQXEBRwAAAAAAAAAAWAQAAABUWVBFcQJLAVgTAAAAc2F2ZWRXaWRnZXRH
-ZW9tZXRyeXEDY3NpcApfdW5waWNrbGVfdHlwZQpxBFgMAAAAUHlRdDQuUXRDb3JlcQVYCgAAAFFC
-eXRlQXJyYXlxBkMuAdnQywABAAAAAAHQAAABFAAAA7sAAAIQAAAB0AAAASoAAAO7AAACEAAAAAAA
-AHEHhXEIh3EJUnEKdS4=
+		<properties format="pickle" node_id="2">gAN9cQAoWAwAAABEVU1QX1RPX0ZJTEVxAUsBWAkAAABGSUxFX05BTUVxAlgUAAAAbGluZWFyX3Bv
+bGFyaXplci5kYXRxA1gFAAAAVEhFVEFxBEcAAAAAAAAAAFgEAAAAVFlQRXEFSwFYEwAAAHNhdmVk
+V2lkZ2V0R2VvbWV0cnlxBmNzaXAKX3VucGlja2xlX3R5cGUKcQdYDAAAAFB5UXQ1LlF0Q29yZXEI
+WAoAAABRQnl0ZUFycmF5cQlDQgHZ0MsAAwAAAAAB0AAAAQwAAARaAAACYgAAAdAAAAEqAAAEWgAA
+AmIAAAAAAAAAAAaQAAAB0AAAASoAAARaAAACYnEKhXELh3EMUnENdS4=
 </properties>
 		<properties format="pickle" node_id="3">gAN9cQAoWAkAAABQTE9UX1RZUEVxAUsAWBMAAABzYXZlZFdpZGdldEdlb21ldHJ5cQJjc2lwCl91
-bnBpY2tsZV90eXBlCnEDWAwAAABQeVF0NC5RdENvcmVxBFgKAAAAUUJ5dGVBcnJheXEFQy4B2dDL
-AAEAAAAAAOYAAACRAAAEpQAAApIAAADmAAAApwAABKUAAAKSAAAAAAAAcQaFcQeHcQhScQl1Lg==
+bnBpY2tsZV90eXBlCnEDWAwAAABQeVF0NS5RdENvcmVxBFgKAAAAUUJ5dGVBcnJheXEFQ0IB2dDL
+AAMAAAAAAOYAAACnAAAEpQAAApIAAADmAAAApwAABKUAAAKSAAAAAAAAAAAGkAAAAOYAAACnAAAE
+pQAAApJxBoVxB4dxCFJxCXUu
 </properties>
 	</node_properties>
 </scheme>
